@@ -1,0 +1,54 @@
+﻿body {
+    background-color: white;
+}
+.index-page-text {
+    font-size: 35px;
+}
+.index-title {
+    font-size: 55px;
+}
+.login-form-container {
+    display: flex;
+    flex-direction: row;
+}
+.container-all {
+    display: flex;
+    background-color: white;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    height: 100vh;
+}
+.login-form-items-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login-form-item {
+    margin: 10px;
+    font-size: 30px;
+    width: 90%;
+}
+.form {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 8px; 
+    background-color: #fff;
+}
+.hr {
+    width: 90%;
+    height: 1px;
+    margin: 10px;
+    background-color: grey;
+}
+.btn-outline-secondary {
+    width: 60%;
+}
+.regiister-form-items-container {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+

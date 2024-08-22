@@ -1,0 +1,68 @@
+﻿@page
+@model IndexModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="~/css/Index.css" />
+</head>
+<body>
+
+
+    <div class="container-all">
+        <div class="index-page-text">
+            <p class="index-title">Quiz App</p>
+            <p class="index-description">Start creating your quizzes and share <br /> with your friends!</p>
+        </div>
+        <div class="login-form-container">
+            <form method="post" asp-page-handler="Login">
+                <div class="login-form-items-container form">
+
+                    <input class="login-form-item input form-control" type="text" name="Username" placeholder="Username or email" />
+                    <input class="login-form-item form-control" type="password" name="Password" placeholder="Password" />
+                    <button class="login-form-item btn btn-success" type="submit">Login</button>
+                    <a href="" style="margin: 5px; text-decoration:none">Forgot your password?</a>
+                    <div class="hr"></div>
+                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 20px" class="login-form-item btn btn-outline-secondary" type="button">Create new account</button>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-2" id="exampleModalLabel">Register</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="post" asp-page-handler="Register">
+                        <div class="register-form-items-container">
+
+                            <input class="login-form-item input form-control" type="text" name="Username" placeholder="Username" />
+                            <input class="login-form-item input form-control" type="text" name="Email" placeholder="Email" />
+                            <input class="login-form-item input form-control" type="text" name="Name" placeholder="Name" />
+                            <input class="login-form-item input form-control" type="text" name="Surname" placeholder="Surname" />
+                            <input class="login-form-item form-control" type="password" name="Password" placeholder="New Password" />
+                            <input class="login-form-item form-control" type="password" name="ConfirmPassword" placeholder="Confirm Password" />
+                            <button class="login-form-item btn btn-success" type="submit">Register</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/Index.js"></script>
+</body>
+</html>
