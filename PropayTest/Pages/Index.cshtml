@@ -21,8 +21,8 @@
             <form method="post" asp-page-handler="Login">
                 <div class="login-form-items-container form">
 
-                    <input class="login-form-item input form-control" type="text" name="Username" placeholder="Username or email" />
-                    <input class="login-form-item form-control" type="password" name="Password" placeholder="Password" />
+                    <input class="login-form-item input form-control" type="text" name="login-username-email" placeholder="Username or email" />
+                    <input class="login-form-item form-control" type="password" name="login-password" placeholder="Password" />
                     <button class="login-form-item btn btn-success" type="submit">Login</button>
                     <a href="" style="margin: 5px; text-decoration:none">Forgot your password?</a>
                     <div class="hr"></div>
@@ -48,14 +48,21 @@
                     <form method="post" asp-page-handler="Register">
                         <div class="register-form-items-container">
 
-                            <input class="login-form-item input form-control" type="text" name="Username" placeholder="Username" />
-                            <input class="login-form-item input form-control" type="text" name="Email" placeholder="Email" />
-                            <input class="login-form-item input form-control" type="text" name="Name" placeholder="Name" />
-                            <input class="login-form-item input form-control" type="text" name="Surname" placeholder="Surname" />
-                            <input class="login-form-item form-control" type="password" name="Password" placeholder="New Password" />
-                            <input class="login-form-item form-control" type="password" name="ConfirmPassword" placeholder="Confirm Password" />
+                            <input class="login-form-item input form-control" type="text" name="register-username" placeholder="Username" required/>
+                            <input class="login-form-item input form-control" type="text" name="register-email" placeholder="Email" required />
+                            <input class="login-form-item input form-control" type="text" name="register-name" placeholder="Name" required />
+                            <input class="login-form-item input form-control" type="text" name="register-surname" placeholder="Surname" required />
+                            <input class="login-form-item form-control" type="password" name="register-newPassword" placeholder="New Password" required />
+                            <input class="login-form-item form-control" type="password" name="register-confirmPassword" placeholder="Confirm Password" required />
                             <button class="login-form-item btn btn-success" type="submit">Register</button>
-
+                            @if (Model.successMessage.Length > 0)
+                            {
+                                <p>@Model.successMessage</p>
+                            }
+                            @if (Model.errorMessage.Length > 0)
+                            {
+                                <p>@Model.errorMessage</p>
+                            }
                         </div>
                     </form>
                 </div>
@@ -63,6 +70,7 @@
         </div>
     </div>
 
+    @* <script src="~/js/Index.js"></script> *@
     <script src="~/js/Index.js"></script>
 </body>
 </html>

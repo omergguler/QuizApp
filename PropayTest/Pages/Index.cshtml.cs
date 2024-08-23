@@ -1,37 +1,81 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PropayTest.Pages.Users;
+using PropayTest.Services;
+using System.Data.SqlClient;
 
 namespace PropayTest.Pages
 {
     public class IndexModel : PageModel
     {
-        [BindProperty]
-        public string Username { get; set; }
+        public User user = new User();
+        public string errorMessage = "";
+        public string successMessage = "";
 
-        [BindProperty]
-        public string Password { get; set; }
 
         public void OnGet()
         {
-            
+
         }
 
-        public IActionResult OnPost()
+        public void OnPost()
         {
-            Console.WriteLine("Posted succesfully");
-            
-            if (ModelState.IsValid)
+            user.UserName = Request.Form["register-username"];
+            user.Email = Request.Form["register-email"];
+            user.FullName = Request.Form["register-name"] + " " + Request.Form["register-surname"];
+            user.PasswordHash = PasswordHasher.HashPassword(Request.Form["register-newPassword"]);
+
+
+
+            if (user.UserName.Length == 0 || user.Email.Length == 0 || user.FullName.Length == 0 || Request.Form["register-newPassword"].ToString().Length == 0)
             {
-                
-                if(Username == null || Password == null)
-                {
-                    Console.WriteLine("fill all fields");
-                }
-                return null;
-                
+                errorMessage = "All fields are required.";
+                return;
             }
 
-            return Page(); 
+            // save user to database
+            try
+            {
+                String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql = "INSERT INTO Users " +
+                 "(UserName, FullName, Email, PasswordHash, SecurityStamp, EmailConfirmed, CreatedDate) VALUES " +
+                 "(@userName, @fullName, @email, @passwordHash, @securityStamp, @emailConfirmed, @createdDate)";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        // Add parameters to the command
+                        command.Parameters.AddWithValue("@userName", user.UserName);
+                        command.Parameters.AddWithValue("@fullName", user.FullName);
+                        command.Parameters.AddWithValue("@email", user.Email);
+                        command.Parameters.AddWithValue("@passwordHash", user.PasswordHash);
+                        command.Parameters.AddWithValue("@securityStamp", "stamped"); // Or set this value as needed
+                        command.Parameters.AddWithValue("@emailConfirmed", 1); // Assuming 1 means true
+                        command.Parameters.AddWithValue("@createdDate", DateTime.Now); // Pass DateTime directly
+
+                        // Execute the command
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+            }
+
+            catch (Exception e)
+            {
+                errorMessage = e.Message;
+                return;
+            }
+
+            user.UserName = "";
+            user.Email = "";
+            user.FullName = "";
+            user.PasswordHash = "";
+            successMessage = "Created user successfully!";
+
+            Console.WriteLine("Posted succesfully the new user");
+
         }
     }
 
