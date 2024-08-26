@@ -39,11 +39,14 @@
             <form method="post" asp-page-handler="Login">
                 <div class="login-form-items-container form">
 
-                    <input class="login-form-item input form-control" type="text" name="login-username-email" placeholder="Username or email" />
-                    <input class="login-form-item form-control" type="password" name="login-password" placeholder="Password" />
+                    <input class="login-form-item input form-control" type="text" name="login-username-email" placeholder="Username or email" required/>
+                    <input class="login-form-item form-control" type="password" name="login-password" placeholder="Password" required />
                     <button class="login-form-item btn btn-success" type="submit">Login</button>
                     <p style="font-size: 20px; margin-top: 10px;">Don't have an account? <a href="/register">Create a new account</a></p>
-
+                    @if (Model.message.Length > 0)
+                    {
+                        <p>@Model.message</p>
+                    }
                     @* <a href="" style="margin: 5px; text-decoration:none">Forgot your password?</a> *@
 
                 </div>
