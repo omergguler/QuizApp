@@ -1,9 +1,54 @@
 ﻿@page "/register"
-@model PropayTest.Pages.Login.LoginModel
+@model PropayTest.Pages.Register.RegisterModel
 @{
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="~/css/Register.css" />
+</head>
 
 
-<div class="text-center">
-    <h1 class="display-4">Register Page</h1>
-</div>
+<body>
+    <div class="register-form-container">
+        <form method="post" asp-page-handler="Register">
+            <div class="register-form-container form">
+
+                <div class="title-container">
+                    <p style="font-size: 40px;">Register</p>
+                </div>
+                <div class="divider"></div>
+                <div class="register-form-row">
+                    <input class="register-form-item input form-control" type="text" name="register-username" placeholder="Username" required />
+                    <input class="register-form-item input form-control" type="text" name="register-email" placeholder="Email" required />
+                </div>
+                <div class="register-form-row">
+                    <input class="register-form-item input form-control" type="text" name="register-name" placeholder="Name" required />
+                    <input class="register-form-item input form-control" type="text" name="register-surname" placeholder="Surname" required />
+                </div>
+                <div class="register-form-row">
+                    <input class="register-form-item form-control" type="password" name="register-newPassword" placeholder="New Password" required />
+                    <input class="register-form-item form-control" type="password" name="register-confirmPassword" placeholder="Confirm Password" required />
+                </div>
+
+                <button class="register-form-item reg-btn btn btn-success" type="submit">Register</button>
+                @if (Model.successMessage.Length > 0)
+                {
+                    <p>@Model.successMessage</p>
+                }
+                @if (Model.errorMessage.Length > 0)
+                {
+                    <p>@Model.errorMessage</p>
+                }
+                <p>Already have an account? <a href="/">Log in</a></p>
+                
+            </div>
+        </form>
+    </div>
+
+
+</body>
+</html>

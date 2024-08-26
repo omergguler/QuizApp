@@ -14,8 +14,26 @@
 
     <div class="container-all">
         <div class="index-page-text">
-            <p class="index-title">Quiz App</p>
+            <p class="index-title">QuizApp</p>
             <p class="index-description">Start creating your quizzes and share <br /> with your friends!</p>
+
+            <a href="#" style="font-size: 25px" data-bs-toggle="modal" data-bs-target="#modalQuizApp" style="text-decoration: none; color: #007bff;">What is QuizApp?</a>
+
+            <div class="modal" id="modalQuizApp" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">What is QuizApp</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                QuizApp is an engaging online quiz system that allows users to create their own quizzes and questions, solve quizzes crafted by others, and track their performance. Dive into a variety of quizzes, measure your knowledge, and see how you fare against other users. With detailed feedback, scoreboards, and insights into top performers, QuizApp transforms the quiz experience into a dynamic and competitive journey.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="login-form-container">
             <form method="post" asp-page-handler="Login">
@@ -24,9 +42,9 @@
                     <input class="login-form-item input form-control" type="text" name="login-username-email" placeholder="Username or email" />
                     <input class="login-form-item form-control" type="password" name="login-password" placeholder="Password" />
                     <button class="login-form-item btn btn-success" type="submit">Login</button>
-                    <a href="" style="margin: 5px; text-decoration:none">Forgot your password?</a>
-                    <div class="hr"></div>
-                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 20px" class="login-form-item btn btn-outline-secondary" type="button">Create new account</button>
+                    <p style="font-size: 20px; margin-top: 10px;">Don't have an account? <a href="/register">Create a new account</a></p>
+
+                    @* <a href="" style="margin: 5px; text-decoration:none">Forgot your password?</a> *@
 
                 </div>
             </form>
@@ -35,42 +53,9 @@
     </div>
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
 
-                <div class="modal-header">
-                    <h1 class="modal-title fs-2" id="exampleModalLabel">Register</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    <form method="post" asp-page-handler="Register">
-                        <div class="register-form-items-container">
-
-                            <input class="login-form-item input form-control" type="text" name="register-username" placeholder="Username" required/>
-                            <input class="login-form-item input form-control" type="text" name="register-email" placeholder="Email" required />
-                            <input class="login-form-item input form-control" type="text" name="register-name" placeholder="Name" required />
-                            <input class="login-form-item input form-control" type="text" name="register-surname" placeholder="Surname" required />
-                            <input class="login-form-item form-control" type="password" name="register-newPassword" placeholder="New Password" required />
-                            <input class="login-form-item form-control" type="password" name="register-confirmPassword" placeholder="Confirm Password" required />
-                            <button class="login-form-item btn btn-success" type="submit">Register</button>
-                            @if (Model.successMessage.Length > 0)
-                            {
-                                <p>@Model.successMessage</p>
-                            }
-                            @if (Model.errorMessage.Length > 0)
-                            {
-                                <p>@Model.errorMessage</p>
-                            }
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     @* <script src="~/js/Index.js"></script> *@
-    <script src="~/js/Index.js"></script>
+    @* <script src="~/js/Index.js"></script> *@
 </body>
 </html>

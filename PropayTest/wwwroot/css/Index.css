@@ -45,10 +45,5 @@
 .btn-outline-secondary {
     width: 60%;
 }
-.regiister-form-items-container {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+
 
