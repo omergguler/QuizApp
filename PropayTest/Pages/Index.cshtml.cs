@@ -20,61 +20,64 @@ namespace PropayTest.Pages
 
         public void OnPost()
         {
+
             user.UserName = Request.Form["register-username"];
             user.Email = Request.Form["register-email"];
             user.FullName = Request.Form["register-name"] + " " + Request.Form["register-surname"];
             user.PasswordHash = PasswordHasher.HashPassword(Request.Form["register-newPassword"]);
 
 
-
-            if (user.UserName.Length == 0 || user.Email.Length == 0 || user.FullName.Length == 0 || Request.Form["register-newPassword"].ToString().Length == 0)
+            if (UserUniquenessChecker.isUniqueUser(user.UserName, user.Email))
             {
-                errorMessage = "All fields are required.";
-                return;
-            }
-
-            // save user to database
-            try
-            {
-                String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                // save user to database
+                try
                 {
-                    connection.Open();
-                    string sql = "INSERT INTO Users " +
-                 "(UserName, FullName, Email, PasswordHash, SecurityStamp, EmailConfirmed, CreatedDate) VALUES " +
-                 "(@userName, @fullName, @email, @passwordHash, @securityStamp, @emailConfirmed, @createdDate)";
-
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
                     {
-                        // Add parameters to the command
-                        command.Parameters.AddWithValue("@userName", user.UserName);
-                        command.Parameters.AddWithValue("@fullName", user.FullName);
-                        command.Parameters.AddWithValue("@email", user.Email);
-                        command.Parameters.AddWithValue("@passwordHash", user.PasswordHash);
-                        command.Parameters.AddWithValue("@securityStamp", "stamped"); // Or set this value as needed
-                        command.Parameters.AddWithValue("@emailConfirmed", 1); // Assuming 1 means true
-                        command.Parameters.AddWithValue("@createdDate", DateTime.Now); // Pass DateTime directly
+                        connection.Open();
+                        string sql = "INSERT INTO Users " +
+                     "(UserName, FullName, Email, PasswordHash, SecurityStamp, EmailConfirmed, CreatedDate) VALUES " +
+                     "(@userName, @fullName, @email, @passwordHash, @securityStamp, @emailConfirmed, @createdDate)";
 
-                        // Execute the command
-                        command.ExecuteNonQuery();
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            // Add parameters to the command
+                            command.Parameters.AddWithValue("@userName", user.UserName);
+                            command.Parameters.AddWithValue("@fullName", user.FullName);
+                            command.Parameters.AddWithValue("@email", user.Email);
+                            command.Parameters.AddWithValue("@passwordHash", user.PasswordHash);
+                            command.Parameters.AddWithValue("@securityStamp", "stamped"); // Or set this value as needed
+                            command.Parameters.AddWithValue("@emailConfirmed", 1); // Assuming 1 means true
+                            command.Parameters.AddWithValue("@createdDate", DateTime.Now); // Pass DateTime directly
+
+                            // Execute the command
+                            command.ExecuteNonQuery();
+                        }
                     }
+
                 }
 
-            }
+                catch (Exception e)
+                {
+                    errorMessage = e.Message;
+                    return;
+                }
 
-            catch (Exception e)
+                user.UserName = "";
+                user.Email = "";
+                user.FullName = "";
+                user.PasswordHash = "";
+                successMessage = "Created user successfully!";
+
+                Console.WriteLine("Posted succesfully the new user");
+            }
+            else
             {
-                errorMessage = e.Message;
-                return;
+                errorMessage = "pick a unique username/email";
             }
 
-            user.UserName = "";
-            user.Email = "";
-            user.FullName = "";
-            user.PasswordHash = "";
-            successMessage = "Created user successfully!";
 
-            Console.WriteLine("Posted succesfully the new user");
 
         }
     }
