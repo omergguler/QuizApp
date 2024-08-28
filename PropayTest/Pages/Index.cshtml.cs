@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PropayTest.Pages.Users;
 using PropayTest.Services;
 using System.Data.SqlClient;
-
 namespace PropayTest.Pages
 {
     public class IndexModel : PageModel
@@ -16,7 +16,7 @@ namespace PropayTest.Pages
 
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
 
 
@@ -38,11 +38,17 @@ namespace PropayTest.Pages
                     {
                         // great!
                         message = "Signed in!";
+                        HttpContext.Session.SetInt32("UserId", user.Id);
+                        return Redirect("/profile");
+
                     }
                     else
                     {
                         // user, password, not confirmed
                         message = "Verify your account first.";
+                        return Page();
+
+
                     }
 
                 }
@@ -51,12 +57,14 @@ namespace PropayTest.Pages
                 else
                 {
                     message = "Wrong password.";
+                    return Page();
                 }
             }
             else
             {
                 // no user
                 message = "No account found.";
+                return Page();
             }
 
 
