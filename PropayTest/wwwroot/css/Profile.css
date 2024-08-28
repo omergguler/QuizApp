@@ -50,6 +50,7 @@ a:hover {
 
 ion-icon {
     font-size: 80px;
+    cursor: pointer;
 }
 
 .list-icon {
@@ -62,10 +63,11 @@ ion-icon {
 
 .scroll-list {
     max-height: 500px;
-    border: 1px solid blue;
+/*    border: 1px solid blue;*/
     display: flex;
-    background-color: aquamarine;
+/*    background-color: aquamarine;*/
     overflow-x: scroll;
+    scroll-behavior: smooth;
 }
 
     .scroll-list .scroll-item {
@@ -76,9 +78,21 @@ ion-icon {
         background-color: red;
         margin: 10px;
         border-radius: 20px;
+        transition: transform 0.5s;
     }
 
 
-.dash-section {
-    margin: 20px 0;
+
+.scroll-list::-webkit-scrollbar{
+    display:none;
 }
+
+    .scroll-list .scroll-item:hover {
+        filter: grayscale(0);
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+
+    .dash-section {
+        margin: 20px 0;
+    }

@@ -41,28 +41,28 @@
                     <h1 class="dash-section-title">Recently Solved</h1>
                     <div class="list-container">
 
-                        <ion-icon name="arrow-dropleft-circle" class="list-icon"></ion-icon>
-                        
-                        
-                            <div class="scroll-list">
-                                <div class="scroll-item">Item 1</div>
-                                <div class="scroll-item">Item 2</div>
-                                <div class="scroll-item">Item 3</div>
-                                <div class="scroll-item">Item 4</div>
-                                <div class="scroll-item">Item 5</div>
-                                <div class="scroll-item">Item 6</div>
-                                <div class="scroll-item">Item 7</div>
-                                <div class="scroll-item">Item 8</div>
-                            </div>
-                        
-                        
-                        <ion-icon name="arrow-dropright-circle" class="list-icon"></ion-icon>
+                        <ion-icon name="arrow-dropleft-circle" class="list-icon" id="back-btn-1"></ion-icon>
+
+
+                        <div class="scroll-list">
+                            <div class="scroll-item">Item 1</div>
+                            <div class="scroll-item">Item 2</div>
+                            <div class="scroll-item">Item 3</div>
+                            <div class="scroll-item">Item 4</div>
+                            <div class="scroll-item">Item 5</div>
+                            <div class="scroll-item">Item 6</div>
+                            <div class="scroll-item">Item 7</div>
+                            <div class="scroll-item">Item 8</div>
+                        </div>
+
+
+                        <ion-icon name="arrow-dropright-circle" class="list-icon" id="forward-btn-1"></ion-icon>
                     </div>
                 </div>
                 <div class="dash-section">
                     <h1 class="dash-section-title">Popular Quizzes</h1>
                     <div class="list-container">
-                        <ion-icon name="arrow-dropleft-circle" class="list-icon"></ion-icon>
+                        <ion-icon name="arrow-dropleft-circle" class="list-icon" id="back-btn-2"></ion-icon>
 
                         <div class="scroll-list">
                             <div class="scroll-item">Item 1</div>
@@ -74,13 +74,13 @@
                             <div class="scroll-item">Item 7</div>
                             <div class="scroll-item">Item 8</div>
                         </div>
-                        <ion-icon name="arrow-dropright-circle" class="list-icon"></ion-icon>
+                        <ion-icon name="arrow-dropright-circle" class="list-icon" id="forward-btn-2"></ion-icon>
                     </div>
                 </div>
                 <div class="dash-section">
                     <h1 class="dash-section-title">Top Performers</h1>
                     <div class="list-container">
-                        <ion-icon name="arrow-dropleft-circle" class="list-icon"></ion-icon>
+                        <ion-icon name="arrow-dropleft-circle" class="list-icon" id="back-btn-3"></ion-icon>
 
                         <div class="scroll-list">
                             <div class="scroll-item">Item 1</div>
@@ -92,7 +92,7 @@
                             <div class="scroll-item">Item 7</div>
                             <div class="scroll-item">Item 8</div>
                         </div>
-                        <ion-icon name="arrow-dropright-circle" class="list-icon"></ion-icon>
+                        <ion-icon name="arrow-dropright-circle" class="list-icon" id="forward-btn-3"></ion-icon>
                     </div>
                 </div>
 
@@ -110,6 +110,46 @@
     }
 
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script>
+        let scrollContainers = document.querySelectorAll(".scroll-list");
+
+        let backBtnOne = document.querySelector("#back-btn-1");
+        let forwardBtnOne = document.querySelector("#forward-btn-1");
+
+        let backBtnTwo = document.querySelector("#back-btn-2");
+        let forwardBtnTwo = document.querySelector("#forward-btn-2");
+
+        let backBtnThree = document.querySelector("#back-btn-3");
+        let forwardBtnThree = document.querySelector("#forward-btn-3");
+
+        scrollContainers.forEach(scrollContainer => {
+            scrollContainer.addEventListener("wheel", (e) => {
+                e.preventDefault();
+                scrollContainer.scrollLeft += e.deltaY
+            });
+        });
+
+        backBtnOne.addEventListener("click", (e) => {
+            scrollContainers[0].scrollLeft -= 400;
+        });
+        forwardBtnOne.addEventListener("click", (e) => {
+            scrollContainers[0].scrollLeft += 400;
+        });
+
+        backBtnTwo.addEventListener("click", (e) => {
+            scrollContainers[1].scrollLeft -= 400;
+        });
+        forwardBtnTwo.addEventListener("click", (e) => {
+            scrollContainers[1].scrollLeft += 400;
+        });
+
+        backBtnThree.addEventListener("click", (e) => {
+            scrollContainers[2].scrollLeft -= 400;
+        });
+        forwardBtnThree.addEventListener("click", (e) => {
+            scrollContainers[2].scrollLeft += 400;
+        });
+    </script>
 </body>
 
 
