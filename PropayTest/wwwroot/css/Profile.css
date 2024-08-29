@@ -20,6 +20,21 @@
         width: 300px;
     }
 
+    .navbar form {
+        width: 300px;
+        display: flex;
+    }
+
+    .navbar form button {
+        width: 300px;
+        border-radius: 10px;
+        font-size: 30px;
+        padding: 20px;
+    }
+        .navbar form button:hover {
+            background-color: gray;
+        }
+
 .dashboard-top-section {
     text-align: center;
     margin-bottom: 60px;
@@ -63,12 +78,14 @@ ion-icon {
 
 .scroll-list {
     max-height: 500px;
-/*    border: 1px solid blue;*/
+    /*    border: 1px solid blue;*/
     display: flex;
-/*    background-color: aquamarine;*/
+    /*    background-color: aquamarine;*/
     overflow-x: scroll;
     scroll-behavior: smooth;
 }
+
+
 
     .scroll-list .scroll-item {
         min-width: 500px;
@@ -83,9 +100,9 @@ ion-icon {
 
 
 
-.scroll-list::-webkit-scrollbar{
-    display:none;
-}
+    .scroll-list::-webkit-scrollbar {
+        display: none;
+    }
 
     .scroll-list .scroll-item:hover {
         filter: grayscale(0);
@@ -93,6 +110,6 @@ ion-icon {
         transform: scale(1.05);
     }
 
-    .dash-section {
-        margin: 20px 0;
-    }
+.dash-section {
+    margin: 20px 0;
+}

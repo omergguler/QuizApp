@@ -8,7 +8,7 @@ namespace PropayTest.Pages.Profile
 {
     public class ProfileModel : PageModel
     {
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public void OnGet()
         {
@@ -18,6 +18,13 @@ namespace PropayTest.Pages.Profile
                 // Fetch user details from the database using userId
                 User = UserService.GetUserDetails((int)userId);
             }
+        }
+
+        public IActionResult OnPostSignOut()
+        {
+            HttpContext.Session.Remove("UserId");
+            User = null;
+            return RedirectToPage("/Index");
         }
     }
 }

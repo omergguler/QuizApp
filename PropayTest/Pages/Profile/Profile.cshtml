@@ -25,7 +25,10 @@
                 <a href="#">Create a Quiz</a>
                 <a href="#">My Performance</a>
                 <a href="#">Participant Results</a>
-                <a href="#">Sign Out</a>
+                <form method="post" asp-page-handler="SignOut">
+                    <button type="submit">Sign Out</button>
+                </form>
+                
             </div>
 
             <div class="dashboard" style="overflow-x: hidden;">
