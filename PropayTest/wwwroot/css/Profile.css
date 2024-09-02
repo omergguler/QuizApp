@@ -164,3 +164,56 @@ ion-icon {
 .modal-title {
     margin-left: 11px;
 }
+
+.modal-question {
+    width: 500px;
+    height: 200px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: #c7c7c7;
+    margin-bottom: 20px;
+    padding: 10px;
+    transition: transform 0.5s;
+}
+
+    .modal-question:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+    .modal-question p {
+        margin: 8px 0;
+        font-weight:900;
+        font-size: 17px;
+    }
+
+.modal-body-scrollable {
+    max-height: 70vh;  
+    overflow-y: auto;  
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+}
+
+.selected {
+    background-color: #333;
+    color: white;
+    border-color: #333;
+}
+
+form {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+    padding: 30px 0;
+}
+
+.swal-wide {
+    width: 1200px !important;
+}
+

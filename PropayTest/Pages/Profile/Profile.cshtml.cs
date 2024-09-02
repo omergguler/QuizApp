@@ -14,6 +14,9 @@ namespace PropayTest.Pages.Profile
 
         public string errorMessage = "";
 
+        public List<int> SelectedQuestionIds { get; set; } = new List<int>();
+
+
         public void OnGet()
         {
             var userId = HttpContext.Session.GetInt32("UserId");

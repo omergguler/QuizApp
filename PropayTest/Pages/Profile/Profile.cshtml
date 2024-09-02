@@ -23,8 +23,8 @@
     {
         <div class="container-all">
 
-            
-            
+
+
 
             @* // create... modal *@
             <div class="modal fade" id="create-choice-modal" tabindex="-1" aria-labelledby="createChoiceModalLabel" aria-hidden="true">
@@ -39,14 +39,60 @@
                                 <img src="/icons/question.png" alt="question.png" />
                                 <h4>Question</h4>
                             </button>
-                            <button class="modal-btn-create" data-bs-toggle="popover" title="Popover title" data-bs-content="@Model.errorMessage">
-                                <img src="/icons/quiz.png" alt="quiz.png" />
-                                <h4>Quiz</h4>
-                            </button>
+                            @if (@Model.errorMessage.Length > 0)
+                            {
+                                <button class="modal-btn-create" data-bs-toggle="popover" title="Not enough questions" data-bs-content="@Model.errorMessage">
+                                    <img src="/icons/quiz.png" alt="quiz.png" />
+                                    <h4>Quiz</h4>
+                                </button>
+                            }
+                            @if (@Model.errorMessage.Length == 0)
+                            {
+                                <button class="modal-btn-create" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">
+                                    <img src="/icons/quiz.png" alt="quiz.png" />
+                                    <h4>Quiz</h4>
+                                </button>
+                            }
+
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content" style="height: 800px;">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Pick at least 5 questions</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body modal-body-scrollable">
+                
+                                @foreach (var question in Model.Questions)
+                                {
+                                    <div class="modal-question" data-id="@question.QuestionId">
+                                        <h6>by @@ @Model.User.UserName</h6>
+                                        <h6>@question.QuestionText</h6>
+                                        <p>A) @question.Choice1</p>
+                                        <p>B) @question.Choice2</p>
+                                        <p>C) @question.Choice3</p>
+                                        <p>D) @question.Choice4</p>
+                                    </div>
+                                }
+                                <input type="hidden" id="selected-questions-input" name="selectedQuestionIds" />
+                                
+                
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button onclick="submitSelectedQuestions()" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
 
 
@@ -62,7 +108,6 @@
                 <form method="post" asp-page-handler="SignOut">
                     <button type="submit">Sign Out</button>
                 </form>
-                
             </div>
 
             <div class="dashboard" style="overflow-x: hidden;">
@@ -192,29 +237,69 @@
         });
 
 
-        
+
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     </script>
+
+    <script>
+                document.addEventListener("DOMContentLoaded", function() {
+            
+            var firstModal = new bootstrap.Modal(document.getElementById('create-choice-modal'));
+            var secondModal = new bootstrap.Modal(document.getElementById('exampleModalToggle2'));
+
+            
+            document.querySelector("[data-bs-target='#exampleModalToggle2']").addEventListener("click", function() {
+                firstModal.hide();
+                setTimeout(function() {
+                    secondModal.show();
+                }, 500); 
+            });
+
+            
+            document.querySelector("[data-bs-target='#create-choice-modal']").addEventListener("click", function() {
+                secondModal.hide();
+                setTimeout(function() {
+                    firstModal.show();
+                }, 500); 
+            });
+        });
+
+    </script>
+
+    <script>
+
+        const items = document.querySelectorAll(".modal-question");
+        items.forEach(item => {
+            item.addEventListener("click", (e) => {
+                item.classList.toggle("selected");
+            })
+        })
+
+
+
+         function submitSelectedQuestions() {
+                const selectedItems = document.querySelectorAll(".selected");
+                const selectedIds = Array.from(selectedItems).map(item => item.getAttribute('data-id'));
+                document.getElementById('selected-questions-input').value = selectedIds.join(',');
+                console.log("Selected questions: " + document.getElementById('selected-questions-input').value)
+                if(selectedIds.length < 5) {
+                    alert("Pick at least 5 questions");
+                } else {
+                    Swal.fire({
+                    customClass: 'swal-wide',
+                title: "Good job!",
+                text: "You clicked the button!",
+                icon: "success"
+                    });
+                }
+                
+            }
+
+       
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 
 </html>
-
-
-
-@* <h1>User Profile</h1>
-
-    @if (Model.User != null)
-    {
-    <div>
-    <p><strong>ID:</strong> @Model.User.Id</p>
-    <p><strong>Username:</strong> @Model.User.UserName</p>
-    <p><strong>Email:</strong> @Model.User.Email</p>
-    <!-- Add other properties as needed -->
-    </div>
-    }
-    else
-    {
-    <p>User not found or you are not authorized to view this profile.</p>
-    } *@
