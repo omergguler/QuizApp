@@ -64,15 +64,17 @@
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content" style="height: 800px;">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Pick at least 5 questions</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Pick at least 5 questions <span id="questions-selected">- Questions selected: 0</span></h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body modal-body-scrollable">
-                
+                            <form id="pick-questions-form" method="post" asp-page-handler="PickQuestions" style="position:absolute;">
+                                <input type="hidden" id="selectedQuestions" name="SelectedQuestionIds" style="position:absolute;">
+                            </form>
                                 @foreach (var question in Model.Questions)
                                 {
                                     <div class="modal-question" data-id="@question.QuestionId">
-                                        <h6>by @@ @Model.User.UserName</h6>
+                                        <h6>by @@ @Model.User.UserName </h6>
                                         <h6>@question.QuestionText</h6>
                                         <p>A) @question.Choice1</p>
                                         <p>B) @question.Choice2</p>
@@ -80,7 +82,7 @@
                                         <p>D) @question.Choice4</p>
                                     </div>
                                 }
-                                <input type="hidden" id="selected-questions-input" name="selectedQuestionIds" />
+                                @* <input type="hidden" id="selected-questions-input" name="selectedQuestionIds" /> *@
                                 
                 
                             
@@ -112,10 +114,20 @@
 
             <div class="dashboard" style="overflow-x: hidden;">
 
-                <div class="dashboard-top-section">
-                    <h1>@Model.User.FullName</h1>
-                    <h4><partial>@@</partial>@Model.User.UserName</h4>
-                </div>
+                @if(@TempData["SuccessMessage"] != null)
+                {
+                    <div class="dashboard-top-section" style="height: 100px; display: flex; flex-direction: row; justify-content: flex-end;">
+                         <div class="success-alert-animated">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    </div>
+                }
+                @if(@TempData["SuccessMessage"] == null)
+                {
+                    <div class="dashboard-top-section" style="height: 100px">
+                          <div class="success-alert-none"></div>
+                    </div>
+                }
 
 
                 <div class="dash-section">
@@ -273,6 +285,9 @@
         items.forEach(item => {
             item.addEventListener("click", (e) => {
                 item.classList.toggle("selected");
+                var count = document.getElementsByClassName("selected").length;
+                document.getElementById("questions-selected").textContent = "- Questions selected: " + count;
+                
             })
         })
 
@@ -281,22 +296,33 @@
          function submitSelectedQuestions() {
                 const selectedItems = document.querySelectorAll(".selected");
                 const selectedIds = Array.from(selectedItems).map(item => item.getAttribute('data-id'));
-                document.getElementById('selected-questions-input').value = selectedIds.join(',');
-                console.log("Selected questions: " + document.getElementById('selected-questions-input').value)
-                if(selectedIds.length < 5) {
-                    alert("Pick at least 5 questions");
+                // document.getElementById('selected-questions-input').value = selectedIds.join(',');
+                // console.log("Selected questions: " + document.getElementById('selected-questions-input').value)
+                // if(selectedIds.length < 5) {
+                //     alert("Pick at least 5 questions");
+                // } else {
+                //     Swal.fire({
+                //     customClass: 'swal-wide',
+                // title: "Good job!",
+                // text: "You clicked the button!",
+                // icon: "success"
+                //     });
+                // }
+
+                if(selectedIds.length >= 5 ) {
+                    // post
+                    document.getElementById('selectedQuestions').value = selectedIds.join(',');
+                     // Submit the form
+                    document.getElementById('pick-questions-form').submit();
                 } else {
-                    Swal.fire({
-                    customClass: 'swal-wide',
-                title: "Good job!",
-                text: "You clicked the button!",
-                icon: "success"
-                    });
+                    alert("Pick at least 5 questions");
                 }
                 
             }
 
-       
+       // <form id="pick-questions-form" method="post" asp-page-handler="PickQuestions">
+       //                          <input type="hidden" id="selectedQuestions" name="SelectedQuestionIds">
+       //                      </form>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
