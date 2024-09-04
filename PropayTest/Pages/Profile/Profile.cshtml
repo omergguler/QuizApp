@@ -23,52 +23,52 @@
     {
         <div class="container-all">
 
-
-
-
-            @* // create... modal *@
-            <div class="modal fade" id="create-choice-modal" tabindex="-1" aria-labelledby="createChoiceModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-2" id="createChoiceModelLabel">Create...</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <button class="modal-btn-create">
-                                <img src="/icons/question.png" alt="question.png" />
-                                <h4>Question</h4>
-                            </button>
-                            @if (@Model.errorMessage.Length > 0)
-                            {
-                                <button class="modal-btn-create" data-bs-toggle="popover" title="Not enough questions" data-bs-content="@Model.errorMessage">
-                                    <img src="/icons/quiz.png" alt="quiz.png" />
-                                    <h4>Quiz</h4>
-                                </button>
-                            }
-                            @if (@Model.errorMessage.Length == 0)
-                            {
-                                <button class="modal-btn-create" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">
-                                    <img src="/icons/quiz.png" alt="quiz.png" />
-                                    <h4>Quiz</h4>
-                                </button>
-                            }
-
-                        </div>
-                    </div>
+            <!-- The First Modal -->
+            <div id="firstModal" class="modal">
+              <!-- Modal content -->
+              <div class="modal-content">
+                  <div class="close-container">
+                      <h4>Create...</h4>
+                      <button class="close">
+                          <img src="/icons/close.png"/ class="close-img">
+                      </button>
+                  </div>
+                
+                <div class="create-buttons-container">
+                    <button class="modal-btn-create">
+                    <img src="/icons/question.png" alt="question.png" />
+                    <h4>Question</h4>
+                </button>
+                @if (@Model.errorMessage.Length > 0)
+                {
+                    <button class="modal-btn-create" data-bs-toggle="popover" title="Not enough questions" data-bs-content="@Model.errorMessage">
+                        <img src="/icons/quiz.png" alt="quiz.png" />
+                        <h4>Quiz</h4>
+                    </button>
+                }
+                @if (@Model.errorMessage.Length == 0)
+                {
+                    <button id="openSecondModalBtn" class="modal-btn-create" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">
+                        <img src="/icons/quiz.png" alt="quiz.png" />
+                        <h4>Quiz</h4>
+                    </button>
+                }
                 </div>
+              </div>
             </div>
 
-
-            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered modal-xl">
-                    <div class="modal-content" style="height: 800px;">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Pick at least 5 questions <span id="questions-selected">- Questions selected: 0</span></h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body modal-body-scrollable">
-                            <form id="pick-questions-form" method="post" asp-page-handler="PickQuestions" style="position:absolute;">
+            <!-- The Second Modal -->
+            <div id="secondModal" class="modal">
+              <!-- Modal content -->
+              <div class="modal-content">
+                  <div class="close-container">
+                      <h4>Pick at least 5 questions <span id="questions-selected">- Questions selected: 0</span></h4>
+                      <button class="close secondClose">
+                          <img src="/icons/close.png"/ class="close-img">
+                      </button>
+                  </div>
+                  <div class="modal-body-scrollable">
+                      <form id="pick-questions-form" method="post" asp-page-handler="PickQuestions" style="position:absolute;">
                                 <input type="hidden" id="selectedQuestions" name="SelectedQuestionIds" style="position:absolute;">
                             </form>
                                 @foreach (var question in Model.Questions)
@@ -81,30 +81,21 @@
                                         <p>C) @question.Choice3</p>
                                         <p>D) @question.Choice4</p>
                                     </div>
-                                }
-                                @* <input type="hidden" id="selected-questions-input" name="selectedQuestionIds" /> *@
+                                } 
                                 
-                
-                            
-                        </div>
-                        <div class="modal-footer">
-                            <button onclick="submitSelectedQuestions()" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
+                  </div>
+                <div class="modal-footer">
+                    <button id="backToFirstModalBtn">Go Back to First Modal</button>
+                     <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Submit</button>
                 </div>
+                
+              </div>
             </div>
 
-
-
-
-
-
             <div class="navbar">
+                <button type="button" class="btn-create" id="openModalBtn">Create...</button>
                 <a href="#">Profile</a>
                 <a href="#">Leaderboard</a>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#create-choice-modal" class="btn-create">
-                    Create...
-                </button>
                 <a href="#">My Performance</a>
                 <a href="#">Participant Results</a>
                 <form method="post" asp-page-handler="SignOut">
@@ -203,9 +194,77 @@
         <p>User not found or you are not authorized to view this profile.</p>
     }
 
+    <script>
+  // Get the modals
+  var firstModal = document.getElementById("firstModal");
+  var secondModal = document.getElementById("secondModal");
+
+  // Get the button that opens the first modal
+  var openFirstModalBtn = document.getElementById("openModalBtn");
+
+  // Get the button inside the first modal that opens the second modal
+  var openSecondModalBtn = document.getElementById("openSecondModalBtn");
+
+  // Get the button inside the second modal that goes back to the first modal
+  var backToFirstModalBtn = document.getElementById("backToFirstModalBtn");
+
+  // Get the <span> elements that close the modals
+  var closeFirstModal = document.getElementsByClassName("close")[0];
+  var closeSecondModal = document.getElementsByClassName("secondClose")[0];
+
+  // When the user clicks the button, open the first modal
+  openFirstModalBtn.onclick = function() {
+    firstModal.style.display = "flex";
+  }
+
+  // When the user clicks on <span> (x), close the first modal
+  closeFirstModal.onclick = function() {
+    firstModal.style.display = "none";
+  }
+
+  // When the user clicks on <span> (x), close the second modal
+  closeSecondModal.onclick = function() {
+    secondModal.style.display = "none";
+  }
+
+  // When the user clicks the button inside the first modal, close the first modal and open the second
+  openSecondModalBtn.onclick = function() {
+    firstModal.style.display = "none";
+    secondModal.style.display = "flex";
+  }
+
+  // When the user clicks the button inside the second modal, close the second modal and open the first modal
+  backToFirstModalBtn.onclick = function() {
+    secondModal.style.display = "none";
+    firstModal.style.display = "flex";
+  }
+
+  // When the user clicks anywhere outside of the modals, close them
+  window.onclick = function(event) {
+    if (event.target == firstModal) {
+      firstModal.style.display = "none";
+    }
+    if (event.target == secondModal) {
+      secondModal.style.display = "none";
+    }
+  }
+
+      
+        // var successMessage = "@TempData["SuccessMessage"]";
+        // if(successMessage != null) {
+        //     secondModal.style.display = "none";
+        //     firstModal.style.display = "flex";
+        // }
+    
+
+</script>
+
+
+
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
 
 
     <script>
@@ -255,31 +314,6 @@
     </script>
 
     <script>
-                document.addEventListener("DOMContentLoaded", function() {
-            
-            var firstModal = new bootstrap.Modal(document.getElementById('create-choice-modal'));
-            var secondModal = new bootstrap.Modal(document.getElementById('exampleModalToggle2'));
-
-            
-            document.querySelector("[data-bs-target='#exampleModalToggle2']").addEventListener("click", function() {
-                firstModal.hide();
-                setTimeout(function() {
-                    secondModal.show();
-                }, 500); 
-            });
-
-            
-            document.querySelector("[data-bs-target='#create-choice-modal']").addEventListener("click", function() {
-                secondModal.hide();
-                setTimeout(function() {
-                    firstModal.show();
-                }, 500); 
-            });
-        });
-
-    </script>
-
-    <script>
 
         const items = document.querySelectorAll(".modal-question");
         items.forEach(item => {
@@ -320,9 +354,6 @@
                 
             }
 
-       // <form id="pick-questions-form" method="post" asp-page-handler="PickQuestions">
-       //                          <input type="hidden" id="selectedQuestions" name="SelectedQuestionIds">
-       //                      </form>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>

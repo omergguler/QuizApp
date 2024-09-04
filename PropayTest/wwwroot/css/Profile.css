@@ -161,7 +161,8 @@ ion-icon {
 }
 
     .modal-btn-create:hover {
-        transform: scale(1.05);
+        /*transform: scale(1.05);*/
+        background-color: black;
     }
 
 .modal-title {
@@ -169,7 +170,7 @@ ion-icon {
 }
 
 .modal-question {
-    width: 500px;
+    width: 400px;
     height: 200px;
     border: 2px solid black;
     border-radius: 20px;
@@ -180,7 +181,6 @@ ion-icon {
 }
 
     .modal-question:hover {
-        transform: scale(1.05);
         cursor: pointer;
     }
 
@@ -221,6 +221,7 @@ form {
 }
 
 .success-alert-animated {
+    z-index: 4;
     font-size: 50px;
     background-color: cornflowerblue;
     border-bottom-left-radius: 20px;
@@ -268,3 +269,66 @@ form {
     padding-right: 200px;
     float: right;
 }
+
+.modal-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal {
+      display: none; 
+      z-index: 1; 
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content { 
+      padding: 20px;
+      border: 1px solid #888;
+      width: 500px; 
+      max-width: 800px;
+    }
+
+    .close-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .close-container h4 {
+        margin-bottom: 0;
+    }
+
+    .close { 
+        width: 30px;
+        height: 30px;
+    }
+    .close-img{
+        width: 100%
+    }
+
+
+.create-buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#secondModal .modal-content {
+/*    overflow-y: auto;*/
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+    width: 1000px;
+    min-width: 1000px;
+}
+
+/*.close-container {
+    display: flex;
+    justify-content: space-between;
+}*/
