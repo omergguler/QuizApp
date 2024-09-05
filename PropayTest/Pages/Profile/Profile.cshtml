@@ -76,27 +76,56 @@
                                 @foreach (var question in Model.Questions)
                                 {
                                     <div class="modal-question" data-id="@question.QuestionId">
-                                        <h6>by @@ @Model.User.UserName </h6>
+                                        
                                         <h6>@question.QuestionText</h6>
+                                        
                                         <p>A) @question.Choice1</p>
                                         <p>B) @question.Choice2</p>
                                         <p>C) @question.Choice3</p>
                                         <p>D) @question.Choice4</p>
+                                @if(question.QuestionText.Length > 280)
+                                {
+                                    <button onclick="handleButtonClick(event, '@Html.Raw(question.QuestionText)', '@Html.Raw(@question.Choice1)', '@Html.Raw(@question.Choice2)', '@Html.Raw(@question.Choice3)', '@Html.Raw(@question.Choice4)')">
+                                        <img src="/icons/expand.png" alt="Alternate Text" />
+                                    </button> 
+                                }
+                                
                                     </div>
                                 } 
                                 
                   </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
-
-
-                    
-
-                        
-                    <button id="backToFirstModalBtn">Go Back to First Modal</button>
-                     <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Submit</button>
+                <div class="modal-footer-custom">
+                    <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button>
+                    <button id="backToFirstModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
+                    <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button>
                 </div>
                 
+              </div>
+            </div>
+
+            <!-- The Third Modal -->
+            <div id="thirdModal" class="modal">
+              <!-- Modal content -->
+              <div class="modal-content">
+                  <div class="close-container">
+                      <button class="thirdClose">
+                          <img src="/icons/close.png" class="close-img">
+                      </button>
+                      <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
+
+                  </div>
+                  <div class="question-container">
+                      <h6></h6>
+                      <p></p>
+                      <p></p>
+                      <p></p>
+                      <p></p>
+                  </div>
+                  <div class="modal-footer-custom">
+                    <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button>
+                    <button id="backToFirstModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
+                    <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button>
+                </div>
               </div>
             </div>
 
@@ -115,10 +144,10 @@
 
                 @if(@TempData["SuccessMessage"] != null)
                 {
-                    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1;">
+                    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1;">
   <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgb(25, 135, 84)">   
     <div class="toast-body" style="color: white;">
-      Hello, world! This is a toast message.
+      @TempData["SuccessMessage"]
     </div>
   </div>
 </div>
@@ -208,6 +237,7 @@
   // Get the modals
   var firstModal = document.getElementById("firstModal");
   var secondModal = document.getElementById("secondModal");
+  var thirdModal = document.getElementById("thirdModal");
 
   // Get the button that opens the first modal
   var openFirstModalBtn = document.getElementById("openModalBtn");
@@ -221,6 +251,7 @@
   // Get the <span> elements that close the modals
   var closeFirstModal = document.getElementsByClassName("close")[0];
   var closeSecondModal = document.getElementsByClassName("secondClose")[0];
+  var closeThirdModal = document.getElementsByClassName("thirdClose")[0];
 
   // When the user clicks the button, open the first modal
   openFirstModalBtn.onclick = function() {
@@ -249,6 +280,15 @@
     firstModal.style.display = "flex";
   }
 
+  backToSecondModalBtn.onclick = function() {
+      thirdModal.style.display = "none";
+      secondModal.style.display = "flex";
+  }
+
+  closeThirdModal.onclick = function() {
+      thirdModal.style.display = "none";
+  }
+
   // When the user clicks anywhere outside of the modals, close them
   window.onclick = function(event) {
     if (event.target == firstModal) {
@@ -257,10 +297,28 @@
     if (event.target == secondModal) {
       secondModal.style.display = "none";
     }
+
+    if (event.target == thirdModal) {
+        thirdModal.style.display = "none";
+        secondModal.style.display = "flex";
+    }
   }
-
       
+  function handleButtonClick(event, text, choice1, choice2, choice3, choice4) {
+        event.stopPropagation(); 
+        secondModal.style.display = "none";
+        thirdModal.style.display = "flex";
+        const questionText = document.querySelector('.question-container h6');
+        const allPs = document.querySelectorAll('.question-container p');
 
+        questionText.textContent = text;
+        allPs[0].textContent = ""+choice1;
+        allPs[1].textContent = choice2;
+        allPs[2].textContent = choice3;
+        allPs[3].textContent = choice4;
+
+        console.log("Button clicked. Question ID:", questionId);
+        };
     
 
 </script>
@@ -279,6 +337,8 @@
 
 
     <script>
+        
+
         let scrollContainers = document.querySelectorAll(".scroll-list");
 
         let backBtnOne = document.querySelector("#back-btn-1");
@@ -322,6 +382,10 @@
 
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+        
+
+
     </script>
 
     <script>
@@ -374,7 +438,10 @@ if (toastTrigger) {
         }
     </script>
     
+    <script>
 
+
+</script>
 
 
 

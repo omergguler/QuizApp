@@ -175,17 +175,29 @@ ion-icon {
 
 .modal-question {
     width: 400px;
-    height: 200px;
+    height: 270px;
     border: 2px solid black;
     border-radius: 20px;
     background-color: #c7c7c7;
     margin-bottom: 20px;
     padding: 10px;
     transition: transform 0.5s;
+    margin-top: 40px;
+    position: relative;
 }
+
+    .modal-question h6 {
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        overflow: hidden; /* Hide the overflowing content */
+        text-overflow: ellipsis; /* Add ellipsis at the end of clipped text */
+        word-wrap: break-word; /* Break long words to fit within the container */
+    }
 
     .modal-question:hover {
         cursor: pointer;
+        background-color: #b0b0b0;
     }
 
     .modal-question p {
@@ -194,6 +206,24 @@ ion-icon {
         font-size: 17px;
     }
 
+    .modal-question button {
+        background-color: white;
+        border-color: transparent;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        border-radius: 5px;
+        padding: 2px;
+    }
+    .modal-question button img {
+        width: 40px;
+        height: 40px;
+        background-color: red;
+    }
+
+    .modal-question button:hover {
+        transform: scale(1.05);
+    }
 .modal-body-scrollable {
     max-height: 70vh;  
     overflow-y: auto;  
@@ -202,6 +232,7 @@ ion-icon {
     flex-wrap: wrap;
     align-items: stretch;
     justify-content: space-evenly;
+    border: 3px solid #333;
 }
 
 .selected {
@@ -209,7 +240,9 @@ ion-icon {
     color: white;
     border-color: #333;
 }
-
+    .selected:hover {
+        background-color: #4d4d4d;
+    }
 form {
     overflow-y: auto;
     display: flex;
@@ -263,23 +296,14 @@ form {
 }
 
 
-/*.success-alert-none {
-    font-size: 50px;
-    background-color: white;
-    border-bottom-left-radius: 20px;
-    border-top-left-radius: 20px;
-    padding: 10px;
-    padding-right: 200px;
-    float: right;
-}*/
-
-.modal-footer {
+.modal-footer-custom {
+    margin-top: 20px;
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
-.modal {
+    .modal {
       display: none; 
       z-index: 1; 
       background-color: rgba(0, 0, 0, 0.8);
@@ -321,7 +345,6 @@ form {
 }
 
 #secondModal .modal-content {
-/*    overflow-y: auto;*/
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -331,8 +354,12 @@ form {
     min-width: 1000px;
 }
 
-/*.close-container {
+#thirdModal .modal-content {
     display: flex;
-    justify-content: space-between;
-}*/
-
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+    width: 1000px;
+    min-width: 1000px;
+}
