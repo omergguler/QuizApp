@@ -1,16 +1,17 @@
 ﻿body {
     overflow-y: hidden;
+    overflow-x: hidden;
 }
 
-.navbar {
+.navbar-custom {
+    background-color: #333;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    background-color: #333;
-    padding: 0 50px;
+    justify-content: space-evenly;
+    padding: 0px 30px;
 }
 
-    .navbar a {
+    .navbar-custom a {
         color: white;
         text-decoration: none;
         font-size: 30px;
@@ -20,43 +21,46 @@
         width: 300px;
     }
 
-    .navbar form {
-        width: 300px;
-        display: flex;
-    }
+        .navbar-custom a:hover {
+            text-decoration: none;
+            color: #333;
+        }
 
-    .navbar .btn-create {
-        padding: 20px;
-        border: 1px solid white;
-        border-radius: 10px;
-        width: 300px;
-        background-color: transparent;
-        color: white;
-        font-size: 30px;
-        text-align: left;
-    }
+.navbar-custom form {
+    padding: 0;
+    height: auto;
+}
 
-    .navbar .btn-create:hover {
+.navbar-custom .btn-create {
+    padding: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 300px;
+    background-color: transparent;
+    color: white;
+    font-size: 30px;
+    text-align: left;
+}
+
+    .navbar-custom .btn-create:hover {
         background-color: white;
         color: #333;
     }
 
 
 
-.navbar form button {
+.navbar-custom form button {
     width: 300px;
     border-radius: 10px;
     font-size: 30px;
     padding: 20px;
 }
 
-        .navbar form button:hover {
-            background-color: gray;
-        }
+    .navbar-custom form button:hover {
+        background-color: gray;
+    }
 
 .dashboard-top-section {
-    margin-bottom: 60px;
-    margin-top: 30px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -69,10 +73,10 @@ a:hover {
 }
 
 .dashboard {
-    padding: 20px 0;
+    padding: 0;
     height: 100vh;
-    overflow-x: hidden;
-    padding-right: 0;
+    padding-top: 20px;
+    overflow-x:clip;
 }
 
 .dash-section-title {
@@ -221,13 +225,12 @@ form {
 }
 
 .success-alert-animated {
+    position: absolute;
     z-index: 4;
     font-size: 50px;
     background-color: cornflowerblue;
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
-    padding: 10px;
-    position: relative;
     right: -200px; 
     animation: slideInOut 4s ease-in-out forwards;
 }
@@ -260,7 +263,7 @@ form {
 }
 
 
-.success-alert-none {
+/*.success-alert-none {
     font-size: 50px;
     background-color: white;
     border-bottom-left-radius: 20px;
@@ -268,7 +271,7 @@ form {
     padding: 10px;
     padding-right: 200px;
     float: right;
-}
+}*/
 
 .modal-footer {
     width: 100%;
@@ -332,3 +335,4 @@ form {
     display: flex;
     justify-content: space-between;
 }*/
+

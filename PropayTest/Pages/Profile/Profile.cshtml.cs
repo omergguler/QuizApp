@@ -39,6 +39,7 @@ namespace PropayTest.Pages.Profile
         {
             HttpContext.Session.Remove("UserId");
             User = null;
+            TempData["SuccessMessage"] = null;
             return RedirectToPage("/Index");
         }
 
@@ -84,7 +85,6 @@ namespace PropayTest.Pages.Profile
 
                 HttpContext.Session.SetInt32("UserId", (int)userId);
                 TempData["SuccessMessage"] = "Created quiz!";
-                /*successMessage = "Created quiz successfully!";*/
                 return Redirect("/profile");
 
             }
