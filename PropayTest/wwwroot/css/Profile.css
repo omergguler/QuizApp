@@ -175,7 +175,7 @@ ion-icon {
 
 .modal-question {
     width: 400px;
-    height: 270px;
+    height: 320px;
     border: 2px solid black;
     border-radius: 20px;
     background-color: #c7c7c7;
@@ -193,6 +193,8 @@ ion-icon {
         overflow: hidden; /* Hide the overflowing content */
         text-overflow: ellipsis; /* Add ellipsis at the end of clipped text */
         word-wrap: break-word; /* Break long words to fit within the container */
+        /*height: 140px;*/
+        line-height: 1.6;
     }
 
     .modal-question:hover {
@@ -206,19 +208,25 @@ ion-icon {
         font-size: 17px;
     }
 
-    .modal-question button {
-        background-color: white;
-        border-color: transparent;
+    .buttons-container {
         position: absolute;
         right: 10px;
         bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .modal-question button {
+        background-color: white;
+        border-color: transparent;
         border-radius: 5px;
         padding: 2px;
+        margin: 5px;
     }
     .modal-question button img {
         width: 40px;
         height: 40px;
-        background-color: red;
     }
 
     .modal-question button:hover {
@@ -355,11 +363,44 @@ form {
 }
 
 #thirdModal .modal-content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-    justify-content: space-evenly;
     width: 1000px;
     min-width: 1000px;
+}
+
+#thirdModal .close-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#fourthModal .close-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#fourthModal .modal-content {
+    max-width: 300px;
+}
+
+#fourthModal .modal-footer-custom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly
+}
+
+#fourthModal .modal-footer-custom button {
+    width: 100px;
+    font-size: 20px;
+}
+
+.question-container {
+    width: 100%;
+    display: block;
+    text-align: justify;
+    color: red;
+}
+
+.alert-delete-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }

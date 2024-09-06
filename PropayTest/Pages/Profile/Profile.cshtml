@@ -83,12 +83,17 @@
                                         <p>B) @question.Choice2</p>
                                         <p>C) @question.Choice3</p>
                                         <p>D) @question.Choice4</p>
-                                @if(question.QuestionText.Length > 280)
-                                {
-                                    <button onclick="handleButtonClick(event, '@Html.Raw(question.QuestionText)', '@Html.Raw(@question.Choice1)', '@Html.Raw(@question.Choice2)', '@Html.Raw(@question.Choice3)', '@Html.Raw(@question.Choice4)')">
-                                        <img src="/icons/expand.png" alt="Alternate Text" />
-                                    </button> 
-                                }
+                                        <div class="buttons-container">
+                                            <button style="background-color:red;" id="buttons-container-delete-btn" onclick="handleDeleteButtonClick(event, @question.QuestionId)">
+                                                <img src="/icons/delete.png" alt="Alternate Text" />
+                                            </button>
+                                            @if(question.QuestionText.Length > 280)
+                                            {
+                                            <button onclick="handleButtonClick(event, '@Html.Raw(question.QuestionText)', '@Html.Raw(@question.Choice1)', '@Html.Raw(@question.Choice2)', '@Html.Raw(@question.Choice3)', '@Html.Raw(@question.Choice4)')">
+                                                <img src="/icons/expand.png" alt="Alternate Text" />
+                                            </button>  
+                                            }
+                                        </div>
                                 
                                     </div>
                                 } 
@@ -108,11 +113,11 @@
               <!-- Modal content -->
               <div class="modal-content">
                   <div class="close-container">
-                      <button class="thirdClose">
+                      
+                      @* <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button> *@
+                      <button class="close thirdClose">
                           <img src="/icons/close.png" class="close-img">
                       </button>
-                      <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
-
                   </div>
                   <div class="question-container">
                       <h6></h6>
@@ -122,9 +127,34 @@
                       <p></p>
                   </div>
                   <div class="modal-footer-custom">
-                    <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button>
-                    <button id="backToFirstModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
-                    <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button>
+                    @* <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button> *@
+                    <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
+                    @* <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button> *@
+                </div>
+              </div>
+            </div>
+
+            <!-- The Fourth Modal -->
+            <div id="fourthModal" class="modal">
+              <!-- Modal content -->
+              <div class="modal-content">
+                  <div class="close-container">
+                      <h4>Delete Question?</h4>
+                      @* <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button> *@
+                      <button class="close fourthClose">
+                          <img src="/icons/close.png" class="close-img">
+                      </button>
+                  </div>
+                  <div class="alert-delete-container">
+                      <form id="delete-question-form" method="post" asp-page-handler="DeleteQuestion" style="position:absolute;">
+                          <input type="hidden" id="selectedQuestion" name="SelectedQuestionId" style="position:absolute;">
+                      </form>
+                  </div>
+                  <div class="modal-footer-custom">
+                    @* <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button> *@
+                    <button id="backToChooseQuestionsModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
+                    <button class="btn btn-danger ">Delete</button>
+                    @* <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button> *@
                 </div>
               </div>
             </div>
@@ -238,6 +268,7 @@
   var firstModal = document.getElementById("firstModal");
   var secondModal = document.getElementById("secondModal");
   var thirdModal = document.getElementById("thirdModal");
+  var fourthModal = document.getElementById("fourthModal"); ///////////////////////////////////
 
   // Get the button that opens the first modal
   var openFirstModalBtn = document.getElementById("openModalBtn");
@@ -248,10 +279,15 @@
   // Get the button inside the second modal that goes back to the first modal
   var backToFirstModalBtn = document.getElementById("backToFirstModalBtn");
 
+  var backToSecondModalBtn = document.getElementById("backToSecondModalBtn");
+
+  var backToChooseQuestionsModalBtn = document.getElementById("backToChooseQuestionsModalBtn");
+
   // Get the <span> elements that close the modals
   var closeFirstModal = document.getElementsByClassName("close")[0];
   var closeSecondModal = document.getElementsByClassName("secondClose")[0];
   var closeThirdModal = document.getElementsByClassName("thirdClose")[0];
+  var closeFourthModal = document.getElementsByClassName("fourthClose")[0]; ///////////////////////////////////////
 
   // When the user clicks the button, open the first modal
   openFirstModalBtn.onclick = function() {
@@ -285,8 +321,17 @@
       secondModal.style.display = "flex";
   }
 
+  backToChooseQuestionsModalBtn.onclick = function() {
+      fourthModal.style.display = "none";
+      secondModal.style.display = "flex";
+  }
+
   closeThirdModal.onclick = function() {
       thirdModal.style.display = "none";
+  }
+
+  closeFourthModal.onclick = function() {
+      fourthModal.style.display = "none";
   }
 
   // When the user clicks anywhere outside of the modals, close them
@@ -296,30 +341,53 @@
     }
     if (event.target == secondModal) {
       secondModal.style.display = "none";
+      firstModal.style.display = "flex";
     }
 
     if (event.target == thirdModal) {
         thirdModal.style.display = "none";
         secondModal.style.display = "flex";
     }
+
+    if (event.target == fourthModal) {
+        fourthModal.style.display = "none";
+        secondModal.style.display = "flex";
+    }
+
   }
+  
+  var openSecond = "@TempData["OpenSecondModal"]";
+  console.log(":= " + openSecond);
+  if(openSecond === "open") {
+            firstModal.style.display = "flex";
+    TempData["OpenSecondModal"] = null;
+        } else {
+            firstModal.style.display = "none";
+        }
+
       
   function handleButtonClick(event, text, choice1, choice2, choice3, choice4) {
         event.stopPropagation(); 
-        secondModal.style.display = "none";
+        // secondModal.style.display = "none";
         thirdModal.style.display = "flex";
         const questionText = document.querySelector('.question-container h6');
         const allPs = document.querySelectorAll('.question-container p');
 
         questionText.textContent = text;
-        allPs[0].textContent = ""+choice1;
+        allPs[0].textContent = choice1;
         allPs[1].textContent = choice2;
         allPs[2].textContent = choice3;
         allPs[3].textContent = choice4;
 
-        console.log("Button clicked. Question ID:", questionId);
+        console.log("Button clicked");
         };
-    
+    function handleDeleteButtonClick(event, id) {
+        event.stopPropagation();
+        document.getElementById("selectedQuestion").value = id;
+        console.log(document.getElementById("selectedQuestion").value);
+        fourthModal.style.display = "flex";
+
+    }
 
 </script>
 

@@ -85,6 +85,7 @@ namespace PropayTest.Pages.Profile
 
                 HttpContext.Session.SetInt32("UserId", (int)userId);
                 TempData["SuccessMessage"] = "Created quiz!";
+                TempData["OpenSecondModal"] = "open";
                 return Redirect("/profile");
 
             }
