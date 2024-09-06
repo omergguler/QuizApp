@@ -114,7 +114,6 @@
               <div class="modal-content">
                   <div class="close-container">
                       
-                      @* <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button> *@
                       <button class="close thirdClose">
                           <img src="/icons/close.png" class="close-img">
                       </button>
@@ -127,9 +126,7 @@
                       <p></p>
                   </div>
                   <div class="modal-footer-custom">
-                    @* <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button> *@
                     <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
-                    @* <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button> *@
                 </div>
               </div>
             </div>
@@ -140,21 +137,18 @@
               <div class="modal-content">
                   <div class="close-container">
                       <h4>Delete Question?</h4>
-                      @* <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button> *@
                       <button class="close fourthClose">
                           <img src="/icons/close.png" class="close-img">
                       </button>
                   </div>
                   <div class="alert-delete-container">
-                      <form id="delete-question-form" method="post" asp-page-handler="DeleteQuestion" style="position:absolute;">
+                      <form id="deleteQuestionForm" method="post" asp-page-handler="DeleteQuestion" style="position:absolute;">
                           <input type="hidden" id="selectedQuestion" name="SelectedQuestionId" style="position:absolute;">
                       </form>
                   </div>
                   <div class="modal-footer-custom">
-                    @* <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button> *@
                     <button id="backToChooseQuestionsModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
-                    <button class="btn btn-danger ">Delete</button>
-                    @* <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button> *@
+                    <button onclick="deleteQuestion()" class="btn btn-danger ">Delete</button>
                 </div>
               </div>
             </div>
@@ -368,7 +362,6 @@
       
   function handleButtonClick(event, text, choice1, choice2, choice3, choice4) {
         event.stopPropagation(); 
-        // secondModal.style.display = "none";
         thirdModal.style.display = "flex";
         const questionText = document.querySelector('.question-container h6');
         const allPs = document.querySelectorAll('.question-container p');
@@ -484,6 +477,15 @@
                 }
                 
             }
+
+        function deleteQuestion() {
+            const questionId = document.getElementById("selectedQuestion").value;
+            const parsedId = parseInt(questionId, 10);
+            document.getElementById("selectedQuestion").value = parsedId;
+            document.getElementById("deleteQuestionForm").submit();
+
+
+        }
 
     </script>
 

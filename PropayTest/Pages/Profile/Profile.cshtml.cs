@@ -43,6 +43,59 @@ namespace PropayTest.Pages.Profile
             return RedirectToPage("/Index");
         }
 
+
+        public IActionResult OnPostDeleteQuestion(int SelectedQuestionId)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId != null)
+            {
+                try
+                {
+                    
+                    String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        string sql = "Delete from Questions where QuestionId = @QuestionId";
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            // Add parameters to the command
+                            command.Parameters.AddWithValue("@QuestionId", SelectedQuestionId);
+
+                            // Execute the command
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+
+
+                }
+
+                catch (Exception e)
+                {
+                    errorMessage = e.Message;
+                }
+
+                /* public List<Question> PickedQuestions = new List<Question>();*/
+
+                HttpContext.Session.SetInt32("UserId", (int)userId);
+                TempData["SuccessMessage"] = "Deleted question";
+                TempData["OpenSecondModal"] = "open";
+                return Redirect("/profile");
+
+            }
+
+            else
+            {
+                return RedirectToPage("/Index");
+            }
+
+
+        }
+
+
+
+
         public IActionResult OnPostPickQuestions(List<int> SelectedQuestionIds)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
