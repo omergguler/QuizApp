@@ -60,7 +60,7 @@
             </div>
 
             <!-- The Second Modal -->
-            <div id="secondModal" class="modal">
+            <div id="secondModal" class="modal" style="z-index: 1;">
               <!-- Modal content -->
               <div class="modal-content">
                   <div class="close-container">
@@ -78,18 +78,18 @@
                                     <div class="modal-question" data-id="@question.QuestionId">
                                         
                                         <h6>@question.QuestionText</h6>
-                                        
-                                        <p>A) @question.Choice1</p>
-                                        <p>B) @question.Choice2</p>
-                                        <p>C) @question.Choice3</p>
-                                        <p>D) @question.Choice4</p>
+                                        <p>A) @question.Choice1 @(question.CorrectChoice == question.Choice1 ? "(Answer)" : "")</p>
+                                        <p>B) @question.Choice2 @(question.CorrectChoice == question.Choice2 ? "(Answer)" : "")</p>
+                                        <p>C) @question.Choice3 @(question.CorrectChoice == question.Choice3 ? "(Answer)" : "")</p>
+                                        <p>D) @question.Choice4 @(question.CorrectChoice == question.Choice4 ? "(Answer)" : "")</p>
+
                                         <div class="buttons-container">
                                             <button style="background-color:red;" id="buttons-container-delete-btn" onclick="handleDeleteButtonClick(event, @question.QuestionId)">
                                                 <img src="/icons/delete.png" alt="Alternate Text" />
                                             </button>
-                                            @if(question.QuestionText.Length > 280)
+                                            @if(question.QuestionText.Length > 150)
                                             {
-                                            <button onclick="handleButtonClick(event, '@Html.Raw(question.QuestionText)', '@Html.Raw(@question.Choice1)', '@Html.Raw(@question.Choice2)', '@Html.Raw(@question.Choice3)', '@Html.Raw(@question.Choice4)')">
+                                            <button onclick="handleButtonClick(event, '@Html.Raw(question.QuestionText)', '@Html.Raw(@question.Choice1)', '@Html.Raw(@question.Choice2)', '@Html.Raw(@question.Choice3)', '@Html.Raw(@question.Choice4)', '@Html.Raw(question.CorrectChoice)')">
                                                 <img src="/icons/expand.png" alt="Alternate Text" />
                                             </button>  
                                             }
@@ -108,7 +108,7 @@
               </div>
             </div>
 
-            <!-- The Third Modal -->
+            <!-- The Third Modal | Question Details (for long questions)-->
             <div id="thirdModal" class="modal">
               <!-- Modal content -->
               <div class="modal-content">
@@ -120,10 +120,17 @@
                   </div>
                   <div class="question-container">
                       <h6></h6>
-                      <p></p>
-                      <p></p>
-                      <p></p>
-                      <p></p>
+                      <div class="options-container">
+                          <div>
+                          <p></p>
+                          <p></p>
+                      </div>
+                      <div>
+                          <p></p>
+                          <p></p>
+                      </div>
+                      </div>
+                      
                   </div>
                   <div class="modal-footer-custom">
                     <button id="backToSecondModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
@@ -168,15 +175,13 @@
 
                 @if(@TempData["SuccessMessage"] != null)
                 {
-                    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1;">
-  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgb(25, 135, 84)">   
-    <div class="toast-body" style="color: white;">
-      @TempData["SuccessMessage"]
-    </div>
-  </div>
-</div>
-                      
-                    
+                    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2;">
+                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: rgb(25, 135, 84)">   
+                            <div class="toast-body" style="color: white;">
+                              @TempData["SuccessMessage"]
+                            </div>
+                        </div>
+                    </div>
                 }
 
                 
@@ -357,7 +362,7 @@
         }
 
       
-  function handleButtonClick(event, text, choice1, choice2, choice3, choice4) {
+  function handleButtonClick(event, text, choice1, choice2, choice3, choice4, correctChoice) {
         event.stopPropagation(); 
         thirdModal.style.display = "flex";
         const questionText = document.querySelector('.question-container h6');
@@ -370,6 +375,20 @@
         allPs[3].textContent = choice4;
 
         console.log("Button clicked");
+
+        allPs.forEach((pElement) => {
+
+            if(pElement.textContent === correctChoice) {
+                pElement.textContent = pElement.textContent + " (Answer)";
+            }
+        }
+        );
+
+        allPs[0].textContent = "A) " + allPs[0].textContent;
+        allPs[1].textContent = "B) " + allPs[1].textContent;
+        allPs[2].textContent = "C) " + allPs[2].textContent;
+        allPs[3].textContent = "D) " + allPs[3].textContent;
+
         };
     function handleDeleteButtonClick(event, id) {
         event.stopPropagation();

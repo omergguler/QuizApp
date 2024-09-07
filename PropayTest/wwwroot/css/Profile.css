@@ -175,20 +175,20 @@ ion-icon {
 
 .modal-question {
     width: 400px;
-    height: 320px;
+    height: 250px;
     border: 2px solid black;
     border-radius: 20px;
     background-color: #c7c7c7;
-    margin-bottom: 20px;
+    margin-bottom: 0;
     padding: 10px;
     transition: transform 0.5s;
-    margin-top: 40px;
+    margin-top: 20px;
     position: relative;
 }
 
     .modal-question h6 {
         display: -webkit-box;
-        -webkit-line-clamp: 6;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden; /* Hide the overflowing content */
         text-overflow: ellipsis; /* Add ellipsis at the end of clipped text */
@@ -319,12 +319,27 @@ form {
       align-items: center;
     }
 
-    .modal-content { 
-      padding: 20px;
-      border: 1px solid #888;
-      width: 500px; 
-      max-width: 800px;
+    
+
+@keyframes popUp {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
     }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    animation: popUp 0.2s ease-in-out;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 500px;
+    max-width: 800px;
+}
 
     .close-container {
         width: 100%;
@@ -363,7 +378,7 @@ form {
 }
 
 #thirdModal .modal-content {
-    width: 1000px;
+    m
     min-width: 1000px;
 }
 
@@ -396,11 +411,22 @@ form {
     width: 100%;
     display: block;
     text-align: justify;
-    color: red;
+    color: black;
 }
 
 .alert-delete-container {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-weight: 900;
+}
+
+.options-container div p {
+    margin: 10px 0;
 }
