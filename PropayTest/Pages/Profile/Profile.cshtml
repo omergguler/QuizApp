@@ -176,7 +176,7 @@
   </div>
 </div>
                       
-                    TempData["SuccessMessage"] = null;
+                    
                 }
 
                 
@@ -353,10 +353,7 @@
   var openSecond = "@TempData["OpenSecondModal"]";
   console.log(":= " + openSecond);
   if(openSecond === "open") {
-            firstModal.style.display = "flex";
-    TempData["OpenSecondModal"] = null;
-        } else {
-            firstModal.style.display = "none";
+            secondModal.style.display = "flex";
         }
 
       
@@ -504,7 +501,6 @@ if (toastTrigger) {
         //  console.log(successMessage);
         if(successMessage != null) {
             toastTrigger.click();
-            TempData["SuccessMessage"] = null;
         }
     </script>
     
