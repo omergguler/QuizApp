@@ -8,7 +8,7 @@ namespace PropayTest.Services
     {
         public static User validAndConfirmed(string userNameOrEmail)
         {
-            User user = new User();
+            User user = null;
             
             try
             {
@@ -29,29 +29,34 @@ namespace PropayTest.Services
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
 
-                            while (reader.Read())
+                            if (reader.Read())
                             {
-                                user.Id = reader.GetInt32(0);
-                                user.UserName = reader.GetString(1);
-                                user.FullName = reader.GetString(2);
-                                user.Email = reader.GetString(3);
-                                user.PasswordHash = reader.GetString(4);
-                                user.SecurityStamp = reader.GetString(5);
-                                user.EmailConfirmed = reader.GetBoolean(6);
-                                user.CreatedDate = reader.GetDateTime(7);
+                                user = new User
+                                {
+                                    Id = reader.GetInt32(0),
+                                    UserName = reader.GetString(1),
+                                    FullName = reader.GetString(2),
+                                    Email = reader.GetString(3),
+                                    PasswordHash = reader.GetString(4),
+                                    SecurityStamp = reader.GetString(5),
+                                    EmailConfirmed = reader.GetBoolean(6),
+                                    CreatedDate = reader.GetDateTime(7),
+                                    SixDigitNumber = reader.GetString(8)
+                                };
                             }
                         }
                     }
                 }
-
+                return user;  // Return the found user or an empty user object if none is found
             }
 
             catch (Exception e)
             {
-                return user;
+                Console.WriteLine("Error occurred: " + e.Message);
+                return new User();  // Return an empty user object in case of error
             }
 
-            return user;
+            
         }
     }
 }

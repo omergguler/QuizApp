@@ -1,4 +1,9 @@
+using Microsoft.AspNetCore.Identity.UI.Services;
+using PropayTest.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//builder.Services.AddTransient<PropayTest.Services.IEmailSender, EmailSender>();
 
 // Add session services
 builder.Services.AddDistributedMemoryCache();

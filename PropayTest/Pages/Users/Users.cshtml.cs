@@ -54,5 +54,7 @@ namespace PropayTest.Pages.Users
         public string SecurityStamp { get; set; }
         public bool EmailConfirmed { get; set; }  // Updated to bool
         public DateTime CreatedDate { get; set; } // Updated to DateTime
+        public string SixDigitNumber { get; set; }
+
     }
 }

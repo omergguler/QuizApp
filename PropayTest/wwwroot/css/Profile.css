@@ -183,6 +183,7 @@ ion-icon {
     padding: 10px;
     transition: transform 0.5s;
     margin-top: 20px;
+    margin-bottom: 10px;
     position: relative;
 }
 

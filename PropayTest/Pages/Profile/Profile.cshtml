@@ -41,20 +41,11 @@
                     <img src="/icons/question.png" alt="question.png" />
                     <h4>Question</h4>
                 </button>
-                @if (@Model.errorMessage.Length > 0)
-                {
-                    <button class="modal-btn-create" data-bs-toggle="popover" title="Not enough questions" data-bs-content="@Model.errorMessage">
-                        <img src="/icons/quiz.png" alt="quiz.png" />
-                        <h4>Quiz</h4>
-                    </button>
-                }
-                @if (@Model.errorMessage.Length == 0)
-                {
-                    <button id="openSecondModalBtn" class="modal-btn-create" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">
-                        <img src="/icons/quiz.png" alt="quiz.png" />
-                        <h4>Quiz</h4>
-                    </button>
-                }
+                
+                <button id="openSecondModalBtn" class="modal-btn-create">
+                    <img src="/icons/quiz.png" alt="quiz.png" />
+                    <h4>Quiz</h4>
+                </button>
                 </div>
               </div>
             </div>
@@ -162,6 +153,7 @@
 
             <div class="navbar-custom">
                 <button type="button" class="btn-create" id="openModalBtn">Create...</button>
+                <a href="">Browse</a>
                 <a href="#">Profile</a>
                 <a href="#">Leaderboard</a>
                 <a href="#">My Performance</a>
