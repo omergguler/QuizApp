@@ -37,15 +37,16 @@
                   </div>
                 
                 <div class="create-buttons-container">
-                    <button class="modal-btn-create">
-                    <img src="/icons/question.png" alt="question.png" />
-                    <h4>Question</h4>
-                </button>
+                    <button class="modal-btn-create" id="openFifthModalBtn">
+                        <img src="/icons/question.png" alt="question.png" />
+                        <h4>Question</h4>
+                    </button>
+
                 
-                <button id="openSecondModalBtn" class="modal-btn-create">
-                    <img src="/icons/quiz.png" alt="quiz.png" />
-                    <h4>Quiz</h4>
-                </button>
+                    <button id="openSecondModalBtn" class="modal-btn-create">
+                        <img src="/icons/quiz.png" alt="quiz.png" />
+                        <h4>Quiz</h4>
+                    </button>
                 </div>
               </div>
             </div>
@@ -147,12 +148,68 @@
                   <div class="modal-footer-custom">
                     <button id="backToChooseQuestionsModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
                     <button onclick="deleteQuestion()" class="btn btn-danger ">Delete</button>
+                  </div>
+              </div>
+            </div>
+
+            <!-- The Fifth Modal -->
+            <div id="fifthModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                <div class="close-container">
+                    <button class="close fifthClose">
+                        <img src="/icons/close.png" class="close-img">
+                    </button>
+                </div>
+
+                <form style="display: block;">
+                    <div class="choose-category">
+                        <h4>Choose a category</h4>
+
+                        <select id="options" name="options">
+                        <option value="generalKnowledge">General Knowledge</option>
+                        <option value="scienceAndTechnology">Science & Technology</option>
+                        <option value="history">History</option>
+                        <option value="geography">Geography</option>
+                        <option value="moviesAndTVShows">Movies & TV Shows</option>
+                        <option value="music&popCulture">Music & Pop Culture</option>
+                        <option value="sports">Sports</option>
+                        <option value="literatureAndBooks">Literature & Books</option>
+                        <option value="math&LogicPuzzles">Math & Logic Puzzles</option>
+                        <option value="triviaAndFunFacts">Trivia & Fun Facts</option>
+                        </select>
+                        
+                    </div>
+                    
+                    <textarea maxlength="1500" placeholder="Enter your question (maximum 1500 characters)" style="margin-bottom: 20px; font-size: 25px; height: 280px;"></textarea>
+                    
+                    
+
+                    
+                    
+                
+                <div class="choices-container">
+
+                    <input placeholder="Enter choice" class="text-input" id="choiceOne"/>
+                    <input placeholder="Enter choice" class="text-input" id="choiceTwo"/>
+                    <input placeholder="Enter choice" class="text-input" id="choiceThree"/>
+                    <input placeholder="Enter choice" class="text-input" id="choiceFour"/>
+
+                </div>
+                </form>
+                
+                <div class="modal-footer-custom" style="justify-content: flex-start; align-items: center;">
+                    <button id="backToCreateModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
+                    <button class="btn btn-primary"  style="font-size: 20px; margin-left: auto;">Create Question</button>
                 </div>
               </div>
             </div>
 
+            
+
             <div class="navbar-custom">
                 <button type="button" class="btn-create" id="openModalBtn">Create...</button>
+                <a href="/profile/library">My Library</a>
                 <a href="">Browse</a>
                 <a href="#">Profile</a>
                 <a href="#">Leaderboard</a>
@@ -260,15 +317,19 @@
   var secondModal = document.getElementById("secondModal");
   var thirdModal = document.getElementById("thirdModal");
   var fourthModal = document.getElementById("fourthModal"); ///////////////////////////////////
-
+  var fifthModal = document.getElementById("fifthModal");
+  
   // Get the button that opens the first modal
   var openFirstModalBtn = document.getElementById("openModalBtn");
-
+  var openFifthModalBtn = document.getElementById("openFifthModalBtn");
+  
   // Get the button inside the first modal that opens the second modal
   var openSecondModalBtn = document.getElementById("openSecondModalBtn");
 
   // Get the button inside the second modal that goes back to the first modal
   var backToFirstModalBtn = document.getElementById("backToFirstModalBtn");
+
+  var backToCreateModalBtn = document.getElementById("backToCreateModalBtn");
 
   var backToSecondModalBtn = document.getElementById("backToSecondModalBtn");
 
@@ -279,10 +340,19 @@
   var closeSecondModal = document.getElementsByClassName("secondClose")[0];
   var closeThirdModal = document.getElementsByClassName("thirdClose")[0];
   var closeFourthModal = document.getElementsByClassName("fourthClose")[0]; ///////////////////////////////////////
-
+  var closeFifthModal = document.getElementsByClassName("fifthClose")[0];
   // When the user clicks the button, open the first modal
   openFirstModalBtn.onclick = function() {
     firstModal.style.display = "flex";
+  }
+
+  openFifthModalBtn.onclick = function() {
+      firstModal.style.display = "none";
+      fifthModal.style.display = "flex";
+  }
+
+  closeFifthModal.onclick = function() {
+      fifthModal.style.display = "none";
   }
 
   // When the user clicks on <span> (x), close the first modal
@@ -305,6 +375,11 @@
   backToFirstModalBtn.onclick = function() {
     secondModal.style.display = "none";
     firstModal.style.display = "flex";
+  }
+
+  backToCreateModalBtn.onclick = function() {
+      fifthModal.style.display = "none";
+      firstModal.style.display = "flex";
   }
 
   backToSecondModalBtn.onclick = function() {
@@ -343,6 +418,11 @@
     if (event.target == fourthModal) {
         fourthModal.style.display = "none";
         secondModal.style.display = "flex";
+    }
+
+    if(event.target == fifthModal) {
+        fifthModal.style.display = "none";
+        firstModal.style.display = "flex";
     }
 
   }
@@ -391,13 +471,6 @@
     }
 
 </script>
-
-
-    <script>
-
-         
-
-    </script>
 
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 
@@ -497,16 +570,18 @@
 
     </script>
 
+ 
+
     <script>
         const toastTrigger = document.getElementById('liveToastBtn')
-const toastLiveExample = document.getElementById('liveToast')
+        const toastLiveExample = document.getElementById('liveToast')
 
-if (toastTrigger) {
-  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-  toastTrigger.addEventListener('click', () => {
-    toastBootstrap.show()
-  })
-}
+        if (toastTrigger) {
+          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+          toastTrigger.addEventListener('click', () => {
+            toastBootstrap.show()
+          })
+        }
 
         var successMessage = "@TempData["SuccessMessage"]";
         //  console.log(successMessage);
@@ -514,13 +589,49 @@ if (toastTrigger) {
             toastTrigger.click();
         }
     </script>
+
+    
     
     <script>
+    var choice1 = document.getElementById("choiceOne");
+    var choice2 = document.getElementById("choiceTwo");
+    var choice3 = document.getElementById("choiceThree");
+    var choice4 = document.getElementById("choiceFour");
 
+    const choices = [choice1, choice2, choice3, choice4];
 
-</script>
+    // Function to handle the class updates
+    function handleChoiceClick(clickedChoice) {
+        // Loop through all choices
+        choices.forEach(choice => {
+            if (choice === clickedChoice) {
+                // If it's the clicked choice, add "correctChoice" and remove "wrongChoice"
+                choice.classList.add("correctChoice");
+                choice.classList.remove("wrongChoice");
+            } else {
+                // For other choices, add "wrongChoice" and remove "correctChoice"
+                choice.classList.add("wrongChoice");
+                choice.classList.remove("correctChoice");
+            }
+        });
+    }
 
+    // Add event listeners to each choice
+    choices.forEach(choice => {
+        choice.addEventListener('click', function() {
+            handleChoiceClick(choice);
+        });
+    });
 
+    const inputs = document.querySelectorAll(".choices-container input");
+    
+ </script>
+
+@*  <script>
+     function updateView() {
+
+     }
+ </script> *@
 
 </body>
 

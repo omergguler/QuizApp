@@ -431,3 +431,77 @@ form {
 .options-container div p {
     margin: 10px 0;
 }
+
+#options {
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+#fifthModal .close-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#fifthModal .close-container button{
+    margin-left: auto;
+}
+
+#fifthModal textarea {
+    height: 370px;
+}
+.choices-container {
+    display: flex;
+    flex-direction: column;
+/*    height: 90px;*/
+}
+
+textarea {
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 60px;
+    width: 100%;
+    
+}
+
+/*.choices-container div{
+    
+    display: flex;
+    padding: 10px;
+    border: 1px solid black;
+    margin: 5px 0;
+    cursor: pointer;
+}*/
+
+.choices-container .text-input {
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 25px;
+    border-radius: 5px;
+    width: 100%;
+    margin: 10px 0;
+    cursor: pointer;
+    color: black;
+}
+
+.correctChoice {
+    background-color: #32CD32;
+}
+
+.wrongChoice {
+    background-color: #FF5733;
+}
+
+form .choose-category {
+    margin-bottom: 30px;
+    display: flex;
+}
+
+#fifthModal .modal-content{
+    height: 85vh;
+}
+
+#fifthModal form {
+    height: 70vh;
+    padding: 0;
+}
