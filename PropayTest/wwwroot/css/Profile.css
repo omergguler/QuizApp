@@ -502,6 +502,6 @@ form .choose-category {
 }
 
 #fifthModal form {
-    height: 70vh;
     padding: 0;
+    margin-bottom: 0;
 }

@@ -156,53 +156,42 @@
             <div id="fifthModal" class="modal">
                 <!-- Modal content -->
                 <div class="modal-content">
-                <div class="close-container">
-                    <button class="close fifthClose">
-                        <img src="/icons/close.png" class="close-img">
-                    </button>
-                </div>
-
-                <form style="display: block;">
-                    <div class="choose-category">
-                        <h4>Choose a category</h4>
-
-                        <select id="options" name="options">
-                        <option value="generalKnowledge">General Knowledge</option>
-                        <option value="scienceAndTechnology">Science & Technology</option>
-                        <option value="history">History</option>
-                        <option value="geography">Geography</option>
-                        <option value="moviesAndTVShows">Movies & TV Shows</option>
-                        <option value="music&popCulture">Music & Pop Culture</option>
-                        <option value="sports">Sports</option>
-                        <option value="literatureAndBooks">Literature & Books</option>
-                        <option value="math&LogicPuzzles">Math & Logic Puzzles</option>
-                        <option value="triviaAndFunFacts">Trivia & Fun Facts</option>
-                        </select>
-                        
+                    <div class="close-container">
+                        <button class="close fifthClose">
+                            <img src="/icons/close.png" class="close-img">
+                        </button>
                     </div>
-                    
-                    <textarea maxlength="1500" placeholder="Enter your question (maximum 1500 characters)" style="margin-bottom: 20px; font-size: 25px; height: 280px;"></textarea>
-                    
-                    
 
-                    
-                    
-                
-                <div class="choices-container">
-
-                    <input placeholder="Enter choice" class="text-input" id="choiceOne"/>
-                    <input placeholder="Enter choice" class="text-input" id="choiceTwo"/>
-                    <input placeholder="Enter choice" class="text-input" id="choiceThree"/>
-                    <input placeholder="Enter choice" class="text-input" id="choiceFour"/>
-
+                    <form id="createQuestionForm" method="post" asp-page-handler="CreateQuestion" style="display: block;">
+                        <div class="choose-category">
+                            <h4>Choose a category</h4>
+                            <select id="options" name="category">
+                            <option value="generalKnowledge">General Knowledge</option>
+                            <option value="scienceAndTechnology">Science & Technology</option>
+                            <option value="history">History</option>
+                            <option value="geography">Geography</option>
+                            <option value="moviesAndTVShows">Movies & TV Shows</option>
+                            <option value="music&popCulture">Music & Pop Culture</option>
+                            <option value="sports">Sports</option>
+                            <option value="literatureAndBooks">Literature & Books</option>
+                            <option value="math&LogicPuzzles">Math & Logic Puzzles</option>
+                            <option value="triviaAndFunFacts">Trivia & Fun Facts</option>
+                            </select>
+                        </div>
+                        <textarea required name="questionText" maxlength="1500" placeholder="Enter your question (maximum 1500 characters)" style="margin-bottom: 20px; font-size: 25px; height: 280px;"></textarea>
+                        <div class="choices-container">
+                            <input required name="choiceOne" placeholder="Enter choice" class="text-input" id="choiceOne"/>
+                            <input required name="choiceTwo" placeholder="Enter choice" class="text-input" id="choiceTwo"/>
+                            <input required name="choiceThree" placeholder="Enter choice" class="text-input" id="choiceThree"/>
+                            <input required name="choiceFour" placeholder="Enter choice" class="text-input" id="choiceFour"/>
+                        </div>
+                        <input type="hidden" name="answer" value="" id="answer"/>
+                    </form>
+                    <div class="modal-footer-custom" style="justify-content: flex-start; align-items: center;">
+                        <button id="backToCreateModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
+                        <button onclick="submitQuestion()" class="btn btn-primary"  style="font-size: 20px; margin-left: auto;">Create Question</button>
+                    </div>
                 </div>
-                </form>
-                
-                <div class="modal-footer-custom" style="justify-content: flex-start; align-items: center;">
-                    <button id="backToCreateModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
-                    <button class="btn btn-primary"  style="font-size: 20px; margin-left: auto;">Create Question</button>
-                </div>
-              </div>
             </div>
 
             
@@ -240,7 +229,7 @@
 
                 <div class="dash-section">
 
-                    <h1 class="dash-section-title">Recently Solved</h1>
+                    <h1 class="dash-section-title">Recently Solved<span> welcome, @Model.User.FullName</span></h1>
                     <div class="list-container">
 
                         <ion-icon name="arrow-dropleft-circle" class="list-icon" id="back-btn-1"></ion-icon>
@@ -544,20 +533,19 @@
 
 
 
-         function submitSelectedQuestions() {
-                const selectedItems = document.querySelectorAll(".selected");
-                const selectedIds = Array.from(selectedItems).map(item => item.getAttribute('data-id'));
+        function submitSelectedQuestions() {
+            const selectedItems = document.querySelectorAll(".selected");
+            const selectedIds = Array.from(selectedItems).map(item => item.getAttribute('data-id'));
 
-                if(selectedIds.length >= 5 ) {
-                    // post
-                    document.getElementById('selectedQuestions').value = selectedIds.join(',');
-                     // Submit the form
-                    document.getElementById('pick-questions-form').submit();
+            if(selectedIds.length >= 5 ) {
+                // post
+                document.getElementById('selectedQuestions').value = selectedIds.join(',');
+                // Submit the form
+                document.getElementById('pick-questions-form').submit();
                 } else {
                     alert("Pick at least 5 questions");
-                }
-                
-            }
+                }    
+        }
 
         function deleteQuestion() {
             const questionId = document.getElementById("selectedQuestion").value;
@@ -592,7 +580,7 @@
 
     
     
-    <script>
+ <script>
     var choice1 = document.getElementById("choiceOne");
     var choice2 = document.getElementById("choiceTwo");
     var choice3 = document.getElementById("choiceThree");
@@ -602,12 +590,14 @@
 
     // Function to handle the class updates
     function handleChoiceClick(clickedChoice) {
+        console.log(clickedChoice);
         // Loop through all choices
         choices.forEach(choice => {
             if (choice === clickedChoice) {
                 // If it's the clicked choice, add "correctChoice" and remove "wrongChoice"
                 choice.classList.add("correctChoice");
                 choice.classList.remove("wrongChoice");
+                // document.querySelector("#fifthModal p").textContent = choice.value;
             } else {
                 // For other choices, add "wrongChoice" and remove "correctChoice"
                 choice.classList.add("wrongChoice");
@@ -627,11 +617,40 @@
     
  </script>
 
-@*  <script>
-     function updateView() {
+ <script>
+      function submitQuestion() {
+          var textarea = document.querySelector("textarea");
+          var choice1 = document.querySelector("#choiceOne");
+          var choice2 = document.querySelector("#choiceTwo");
+          var choice3 = document.querySelector("#choiceThree");
+          var choice4 = document.querySelector("#choiceFour");
+          if(textarea.value === "" || choice1.value === "" || choice2.value === "" || choice3.value === "" || choice4.value === "") {
+              alert("fill in all the fields");
+          }
+          else {
+              // check if there is exactly 1 correct
+              var correctChoicesCount = document.getElementsByClassName("correctChoice").length;
+              if (correctChoicesCount !== 1) {
+                  // var answer = correctChoice.value;
+                  // document.querySelector("#fifthModal input").value = answer;
+                  alert("there are " + correctChoicesCount + " correct choices, only set 1");
+              } else {
+                  document.getElementById("answer").value = document.getElementsByClassName("correctChoice")[0].value;
+                  document.getElementById("createQuestionForm").submit();
+                  // alert("there is 1 correct!");
+                  // alert("answer is: " + document.getElementsByClassName("correctChoice")[0].value);
+              }
+          }
+      }
+ </script>
 
-     }
- </script> *@
+ <script>
+     if (window.location.search.indexOf("?handler=CreateQuestion") !== -1) {
+            // Clean up the query string without reloading the page
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        
+ </script>
 
 </body>
 

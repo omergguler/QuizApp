@@ -35,6 +35,68 @@ namespace PropayTest.Pages.Profile
             }
         }
 
+        public IActionResult OnPostCreateQuestion(string category, string questionText, string choiceOne, string choiceTwo, string choiceThree, string choiceFour, string answer)
+        {
+
+
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId != null)
+            {
+                try
+                {
+                    String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        string sql = "INSERT INTO Questions " +
+                     "(QuestionText, Choice1, Choice2, Choice3, Choice4, CorrectChoice, CreatorId, CreatedDate, HowManyAnsweredWrong, HowManyAnsweredCorrect, Category) VALUES " +
+                     "(@questionText, @choice1, @choice2, @choice3, @choice4, @correctChoice, @creatorId, @createdDate, @howManyWrong, @howManyCorrect, @category)";
+
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            // Add parameters to the command
+                            command.Parameters.AddWithValue("@questionText", questionText);
+                            command.Parameters.AddWithValue("@choice1", choiceOne);
+                            command.Parameters.AddWithValue("@choice2", choiceTwo);
+                            command.Parameters.AddWithValue("@choice3", choiceThree);
+                            command.Parameters.AddWithValue("@choice4", choiceFour);
+                            command.Parameters.AddWithValue("correctChoice", answer);
+                            command.Parameters.AddWithValue("@creatorId", userId);
+                            command.Parameters.AddWithValue("@createdDate", DateTime.Now);
+                            command.Parameters.AddWithValue("@howManyWrong", 0);
+                            command.Parameters.AddWithValue("@howManyCorrect", 0);
+                            command.Parameters.AddWithValue("@category", category);
+
+                            // Execute the command
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    TempData["SuccessMessage"] = "Created question!";
+                    TempData["OpenSecondModal"] = "open";
+                    return Redirect("/profile");
+
+                }
+
+                catch (Exception e)
+                {
+                    errorMessage = e.Message;
+                    return Page();
+                }
+
+                /* public List<Question> PickedQuestions = new List<Question>();*/
+
+                
+
+            }
+
+            else
+            {
+                //return RedirectToPage("/Index");
+                return Page();
+            }
+        }
+
+
         public IActionResult OnPostSignOut()
         {
             HttpContext.Session.Remove("UserId");
@@ -125,7 +187,10 @@ namespace PropayTest.Pages.Profile
                         }
                     }
 
-                    
+                    HttpContext.Session.SetInt32("UserId", (int)userId);
+                    TempData["SuccessMessage"] = "Created quiz!";
+                    TempData["OpenSecondModal"] = "open";
+                    return Redirect("/profile");
 
                 }
 
@@ -135,11 +200,8 @@ namespace PropayTest.Pages.Profile
                 }
 
                 /* public List<Question> PickedQuestions = new List<Question>();*/
-
-                HttpContext.Session.SetInt32("UserId", (int)userId);
-                TempData["SuccessMessage"] = "Created quiz!";
-                TempData["OpenSecondModal"] = "open";
-                return Redirect("/profile");
+                return Page();
+                
 
             }
 
