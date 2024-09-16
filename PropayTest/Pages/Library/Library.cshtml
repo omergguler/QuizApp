@@ -26,13 +26,72 @@
         @* <h1>My Library</h1>
     <h3>Library of @Model.User.FullName</h3> *@
         <div class="custom-container">
-            <div class="questions item">My Questions</div>
-            <div class="quizzes item">My Quizzes</div>
-            <div class="achievements item">Achievements</div>
-            <div class="favourites item">Favourites</div>
-            <div class="bookmarks item">Bookmarks</div>
+
+            <div class="questions item">
+                <div class="item-top-section">
+                    <img src="~/icons/quiz2.png" />
+                    <h3>My Quizzes</h3>
+                </div>
+                <div class="item-body-section">
+                    @* // list of quizzes *@
+                    <div class="list-container">
+                        <div class="scroll-list">
+                            @foreach (var quiz in Model.Quizzes)
+                            {
+                                <a href="/quiz?id=@quiz.Id">
+                                    <div class="scroll-item" data-id="@quiz.Id">
+                                        <h4>@quiz.Title</h4>
+                                        <h6>@quiz.Description</h6>
+                                    </div>
+                                </a>
+                                
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="questions item">
+                <div class="item-top-section">
+                    <img src="~/icons/qa.png" />
+                    <h3>My Questions</h3>
+                </div>
+                <div class="item-body-section">
+                    @* // list of questions *@
+                    <div class="list-container">
+                        <div class="scroll-list">
+                            @foreach (var question in Model.Questions)
+                            {
+                                <div class="scroll-item question" data-id="@question.QuestionId">
+                                    <h6 class="truncate">@question.QuestionText</h6>
+                                    <h6 class="truncate">Answer: @question.CorrectChoice</h6>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="questions item">
+                <div class="item-top-section">
+                    <img src="~/icons/bookmarks.png" />
+                    <h3>Bookmarks</h3>
+                </div>
+            </div>
+            <div class="questions item">
+                <div class="item-top-section">
+                    <img src="~/icons/favourites.png" />
+                    <h3>Favourites</h3>
+                </div>
+            </div>
+            <div class="questions item">
+                <div class="item-top-section">
+                    <img src="~/icons/medal.png" />
+                    <h3>Achievements</h3>
+                </div>
+            </div>
+
+
         </div>
-        
+
 
     }
     else

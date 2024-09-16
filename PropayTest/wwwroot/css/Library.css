@@ -9,9 +9,9 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-/*    align-items: center;*/
+    /*    align-items: center;*/
     padding: 100px 250px;
-    background-color: cyan;
+    background-color: #6b5b95;
 }
 
 .item {
@@ -43,4 +43,69 @@ html {
     .custom-container {
         padding: 100px 70px; /* Remove padding for small screens */
     }
+}
+
+.item-top-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #feb236;
+    border-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 10px;
+    height: 100px;
+}
+
+.item-top-section img {
+    width: 75px;
+    margin-right: 10px;
+}
+
+.list-container {
+    border-bottom-left-radius: 10px;
+    max-height: 250px;
+}
+
+.scroll-list {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    max-height: 250px;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    background-color: white;
+}
+
+    .scroll-list .scroll-item {
+        min-width: 250px;
+        height: 65px;
+        line-height: 110px;
+        padding-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        border: 2px solid #d64161;
+        margin: 5px;
+        border-radius: 20px;
+    }
+
+
+    .scroll-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scroll-list .scroll-item:hover {
+        filter: grayscale(0);
+        cursor: pointer;
+        background-color: #d64161;
+    }
+
+.question {
+    min-height: 50px;
+}
+
+.truncate {
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden; /* Hide any overflowed content */
+    text-overflow: ellipsis; /* Display ellipsis (…) when text overflows */
 }
