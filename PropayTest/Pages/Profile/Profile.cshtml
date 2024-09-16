@@ -166,16 +166,16 @@
                         <div class="choose-category">
                             <h4>Choose a category</h4>
                             <select id="options" name="category">
-                            <option value="generalKnowledge">General Knowledge</option>
-                            <option value="scienceAndTechnology">Science & Technology</option>
-                            <option value="history">History</option>
-                            <option value="geography">Geography</option>
-                            <option value="moviesAndTVShows">Movies & TV Shows</option>
-                            <option value="music&popCulture">Music & Pop Culture</option>
-                            <option value="sports">Sports</option>
-                            <option value="literatureAndBooks">Literature & Books</option>
-                            <option value="math&LogicPuzzles">Math & Logic Puzzles</option>
-                            <option value="triviaAndFunFacts">Trivia & Fun Facts</option>
+                            <option value="General Knowledge">General Knowledge</option>
+                            <option value="Science & Technology">Science & Technology</option>
+                            <option value="History">History</option>
+                            <option value="Geography">Geography</option>
+                            <option value="Movies & TV Shows">Movies & TV Shows</option>
+                            <option value="Music & Pop Culture">Music & Pop Culture</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Literature & Books">Literature & Books</option>
+                            <option value="Math & Logic Puzzles">Math & Logic Puzzles</option>
+                            <option value="Trivia & Fun Facts">Trivia & Fun Facts</option>
                             </select>
                         </div>
                         <textarea required name="questionText" maxlength="1500" placeholder="Enter your question (maximum 1500 characters)" style="margin-bottom: 20px; font-size: 25px; height: 280px;"></textarea>
@@ -536,10 +536,11 @@
         function submitSelectedQuestions() {
             const selectedItems = document.querySelectorAll(".selected");
             const selectedIds = Array.from(selectedItems).map(item => item.getAttribute('data-id'));
-
+            
             if(selectedIds.length >= 5 ) {
                 // post
                 document.getElementById('selectedQuestions').value = selectedIds.join(',');
+                console.log(document.getElementById("selectedQuestions").value);
                 // Submit the form
                 document.getElementById('pick-questions-form').submit();
                 } else {

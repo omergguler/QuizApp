@@ -85,7 +85,7 @@ namespace PropayTest.Pages.Profile
 
                 /* public List<Question> PickedQuestions = new List<Question>();*/
 
-                
+
 
             }
 
@@ -113,7 +113,7 @@ namespace PropayTest.Pages.Profile
             {
                 try
                 {
-                    
+
                     String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
@@ -158,11 +158,31 @@ namespace PropayTest.Pages.Profile
 
 
 
-        public IActionResult OnPostPickQuestions(List<int> SelectedQuestionIds)
+        public IActionResult OnPostPickQuestions(string SelectedQuestionIds)
         {
+            int maxQuizId = 0;
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId != null)
             {
+                try
+                {
+                    String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        string sql = "select max(Id) from Quizzes";
+
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            maxQuizId = (int)command.ExecuteScalar();
+                        }
+                    }
+                }
+
+                catch (Exception e)
+                {
+                    errorMessage = e.Message;
+                }
                 try
                 {
                     String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
@@ -186,6 +206,40 @@ namespace PropayTest.Pages.Profile
                             command.ExecuteNonQuery();
                         }
                     }
+                }
+
+                catch (Exception e)
+                {
+                    errorMessage = e.Message;
+                }
+
+                // Convert the string to an integer if needed
+
+                try
+                {
+                    String connectionString = "Data Source=LEGION\\SQLEXPRESS;Initial Catalog=PropayTest;Integrated Security=True";
+                    string[] values = SelectedQuestionIds.Split(',');
+                    foreach (string value in values)
+                    {
+                        int number = int.Parse(value);
+                        using (SqlConnection connection = new SqlConnection(connectionString))
+                        {
+                            connection.Open();
+                            string sql = "INSERT INTO QuizQuestions " +
+                                         "(QuizId, QuestionId) VALUES " +
+                                         "(@quizId, @questionId)";
+
+                            using (SqlCommand command = new SqlCommand(sql, connection))
+                            {
+                                // Add parameters to the command
+                                command.Parameters.AddWithValue("@quizId", maxQuizId + 1);
+                                command.Parameters.AddWithValue("@questionId", number);
+                                // Execute the command
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
 
                     HttpContext.Session.SetInt32("UserId", (int)userId);
                     TempData["SuccessMessage"] = "Created quiz!";
@@ -199,9 +253,11 @@ namespace PropayTest.Pages.Profile
                     errorMessage = e.Message;
                 }
 
+
+
                 /* public List<Question> PickedQuestions = new List<Question>();*/
                 return Page();
-                
+
 
             }
 

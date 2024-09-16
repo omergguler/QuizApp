@@ -1,0 +1,46 @@
+﻿
+
+
+body {
+    background-color: red;
+}
+
+.custom-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+/*    align-items: center;*/
+    padding: 100px 250px;
+    background-color: cyan;
+}
+
+.item {
+    border: 2px solid black;
+    height: 350px;
+    width: 350px;
+    margin: 20px;
+    border-radius: 20px;
+    transition: transform 0.1s ease-in-out;
+}
+
+    .item:hover {
+        transform: scale(1.02);
+        cursor: pointer;
+    }
+
+html {
+    background-color: red;
+}
+
+
+@media (max-width: 930px) {
+    .custom-container {
+        padding: 0; /* Remove padding for small screens */
+    }
+}
+
+@media (max-width: 1700px) {
+    .custom-container {
+        padding: 100px 70px; /* Remove padding for small screens */
+    }
+}
