@@ -175,7 +175,7 @@ ion-icon {
 
 .modal-question {
     width: 400px;
-    height: 250px;
+    height: 300px;
     border: 2px solid black;
     border-radius: 20px;
     background-color: #c7c7c7;
@@ -460,7 +460,6 @@ textarea {
     padding: 5px;
     font-size: 60px;
     width: 100%;
-    
 }
 
 /*.choices-container div{

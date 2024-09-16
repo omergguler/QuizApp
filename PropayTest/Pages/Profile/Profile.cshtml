@@ -64,6 +64,8 @@
                   <div class="modal-body-scrollable">
                       <form id="pick-questions-form" method="post" asp-page-handler="PickQuestions" style="position:absolute;">
                           <input type="hidden" id="selectedQuestions" name="SelectedQuestionIds" style="position:absolute;">
+                          <input type="hidden" id="quizTitle" name="QuizTitle" style="position:absolute;">
+                          <input type="hidden" id="quizDescription" name="QuizDescription" style="position:absolute;">
                       </form>
                                 @foreach (var question in Model.Questions)
                                 {
@@ -74,7 +76,8 @@
                                         <p>B) @question.Choice2 @(question.CorrectChoice == question.Choice2 ? "(Answer)" : "")</p>
                                         <p>C) @question.Choice3 @(question.CorrectChoice == question.Choice3 ? "(Answer)" : "")</p>
                                         <p>D) @question.Choice4 @(question.CorrectChoice == question.Choice4 ? "(Answer)" : "")</p>
-
+                                        <p style="font-weight:400">Category: @question.Category</p>
+                                        <p style="font-weight:400">created by @Model.User.UserName</p>
                                         <div class="buttons-container">
                                             <button style="background-color:red;" id="buttons-container-delete-btn" onclick="handleDeleteButtonClick(event, @question.QuestionId)">
                                                 <img src="/icons/delete.png" alt="Alternate Text" />
@@ -94,6 +97,8 @@
                 <div class="modal-footer-custom">
                     <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button>
                     <button id="backToFirstModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
+                    <input style="font-size: 25px; border-radius: 5px; margin: 0 10px;" required placeholder="Enter quiz title" id="quizTitleInput"/>
+                    <input style="font-size: 25px; border-radius: 5px; margin: 0 10px;" placeholder="Enter optional description" id="quizDescriptionInput"/>
                     <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button>
                 </div>
                 
@@ -186,6 +191,7 @@
                             <input required name="choiceFour" placeholder="Enter choice" class="text-input" id="choiceFour"/>
                         </div>
                         <input type="hidden" name="answer" value="" id="answer"/>
+                        
                     </form>
                     <div class="modal-footer-custom" style="justify-content: flex-start; align-items: center;">
                         <button id="backToCreateModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
@@ -536,16 +542,29 @@
         function submitSelectedQuestions() {
             const selectedItems = document.querySelectorAll(".selected");
             const selectedIds = Array.from(selectedItems).map(item => item.getAttribute('data-id'));
-            
-            if(selectedIds.length >= 5 ) {
+            const titleLength = document.getElementById("quizTitleInput").value.length;
+            const descriptionInput = document.getElementById("quizDescriptionInput").value;
+
+            // var description = "";
+            if (titleLength === 0 && selectedIds.length >= 5) {
+                alert("Quiz title is mandatory.");
+            }
+            if (selectedIds.length < 5 && titleLength > 0) {
+                alert("Pick at least 5 questions.");
+            }
+            if (selectedIds.length < 5 && titleLength === 0) {
+                alert("Pick at least 5 questions and provide a title for your quiz.");
+            }
+            if(selectedIds.length >= 5 && titleLength > 0) {
                 // post
+                document.getElementById("quizTitle").value = document.getElementById("quizTitleInput").value;
+                document.getElementById("quizDescription").value = descriptionInput.length > 0 ? descriptionInput : "";
+                
+                
                 document.getElementById('selectedQuestions').value = selectedIds.join(',');
-                console.log(document.getElementById("selectedQuestions").value);
                 // Submit the form
                 document.getElementById('pick-questions-form').submit();
-                } else {
-                    alert("Pick at least 5 questions");
-                }    
+            }    
         }
 
         function deleteQuestion() {
@@ -650,6 +669,11 @@
             // Clean up the query string without reloading the page
             window.history.replaceState({}, document.title, window.location.pathname);
         }
+
+        if (window.location.search.indexOf("?handler=PickQuestions") !== -1) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        
         
  </script>
 

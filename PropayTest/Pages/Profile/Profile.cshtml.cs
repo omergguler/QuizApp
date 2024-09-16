@@ -158,7 +158,7 @@ namespace PropayTest.Pages.Profile
 
 
 
-        public IActionResult OnPostPickQuestions(string SelectedQuestionIds)
+        public IActionResult OnPostPickQuestions(string SelectedQuestionIds, string QuizTitle, string QuizDescription)
         {
             int maxQuizId = 0;
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -196,8 +196,12 @@ namespace PropayTest.Pages.Profile
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
                             // Add parameters to the command
-                            command.Parameters.AddWithValue("@title", "title");
-                            command.Parameters.AddWithValue("@description", "description");
+                            command.Parameters.AddWithValue("@title", QuizTitle);
+                            if (QuizDescription == null) 
+                            {
+                                command.Parameters.AddWithValue("@description", "");
+                            }
+                            
                             command.Parameters.AddWithValue("@createdDate", DateTime.Now);
                             command.Parameters.AddWithValue("@isActive", 1);
                             command.Parameters.AddWithValue("@creatorId", userId); // Or set this value as needed
@@ -252,8 +256,6 @@ namespace PropayTest.Pages.Profile
                 {
                     errorMessage = e.Message;
                 }
-
-
 
                 /* public List<Question> PickedQuestions = new List<Question>();*/
                 return Page();

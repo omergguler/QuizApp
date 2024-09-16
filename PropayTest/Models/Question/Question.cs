@@ -27,5 +27,7 @@ namespace PropayTest.Models.Question
 
         public int HowManyAnsweredCorrect { get; set; }
         // Other properties, methods, etc.
+
+        public string Category { get; set; }
     }
 }

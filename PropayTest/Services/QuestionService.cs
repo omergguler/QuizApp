@@ -42,6 +42,7 @@ namespace PropayTest.Services
                                 question.CreatedDate = reader.GetDateTime(8);
                                 question.HowManyAnsweredWrong = reader.GetInt32(9);
                                 question.HowManyAnsweredCorrect = reader.GetInt32(10);
+                                question.Category = reader.GetString(11);
                                 questions.Add(question);
                             }
                         }
