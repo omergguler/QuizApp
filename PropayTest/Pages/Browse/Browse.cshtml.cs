@@ -5,6 +5,7 @@ using PropayTest.Models.Quiz;
 using PropayTest.Models.QuizzesUsers;
 using PropayTest.Pages.Users;
 using PropayTest.Services;
+using System.Data.SqlClient;
 
 namespace PropayTest.Pages.Browse
 {
@@ -27,5 +28,26 @@ namespace PropayTest.Pages.Browse
                 QuizzesUsers = QuizService.GetEveryQuiz();
             }
         }
+
+        public IActionResult OnPostTakeQuiz(string SelectedQuizId)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId != null)
+            {
+                //HttpContext.Session.SetInt32("UserId", (int)userId);
+                string url = "/take-quiz?id=" + SelectedQuizId;
+                return Redirect(url);
+
+            }
+
+            else
+            {
+                return RedirectToPage("/Index");
+            }
+
+
+        }
+
+        
     }
 }

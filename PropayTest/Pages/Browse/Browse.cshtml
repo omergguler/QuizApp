@@ -21,6 +21,9 @@
 
 
 <body>
+    <form id="takeQuizForm" method="post" asp-page-handler="TakeQuiz" style="position:absolute;">
+        <input type="hidden" id="selectedQuiz" name="SelectedQuizId" style="position:absolute;">
+    </form>
     <h1>All Quizzes - @Model.QuizzesUsers.Count Total</h1>
     <div class="list-container">
         <div class="scroll-list">
@@ -38,7 +41,7 @@
                     </div>
 
                     <div>
-                        <button style="border-radius: 20px;">
+                        <button style="border-radius: 20px;" onclick="takeQuiz(@quiz.QuizId)">
                             <h2>Take quiz</h2>
                         </button>
                     </div>
@@ -49,6 +52,13 @@
             }
         </div>
     </div>
+
+    <script>
+        function takeQuiz(quizId) {
+            document.getElementById("selectedQuiz").value = quizId;
+            document.getElementById("takeQuizForm").submit();
+        }
+    </script>
 </body>
 
 </html>

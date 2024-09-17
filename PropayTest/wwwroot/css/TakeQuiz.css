@@ -1,0 +1,39 @@
+﻿body {
+}
+.choices-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.choice {
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 5px;
+    font-size: 20px;
+    width: 150px;
+    text-align: center;
+}
+
+.choice:hover {
+    cursor: pointer;
+    transform: scale(1.05)
+}
+
+.choice-picked {
+    background-color: gray;
+    color:white;
+}
+
+button {
+    width: 200px;
+    height: 50px;
+    margin: auto auto;
+    background-color: green;
+    color: white;
+    font-weight: 400;
+    float: right;
+}
+
+    button:hover {
+        background-color: greenyellow;
+    }
