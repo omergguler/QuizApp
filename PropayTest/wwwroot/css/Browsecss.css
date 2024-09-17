@@ -47,11 +47,12 @@ h1 {
 }
 
 button {
-    background-color:red;
+    background-color: #9380ab;
     height: 160px;
     width: 200px;
+    border: none;
 }
 
-button:hover {
-    background-color: green;
-}
+    button:hover {
+        background-color: #6b5b95;
+    }

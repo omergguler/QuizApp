@@ -98,7 +98,7 @@
                     <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none">Show live toast</button>
                     <button id="backToFirstModalBtn" class="btn btn-secondary" style="font-size: 20px;">Go Back</button>
                     <input style="font-size: 25px; border-radius: 5px; margin: 0 10px;" required placeholder="Enter quiz title" id="quizTitleInput"/>
-                    <input style="font-size: 25px; border-radius: 5px; margin: 0 10px;" placeholder="Enter optional description" id="quizDescriptionInput"/>
+                    <input style="font-size: 25px; border-radius: 5px; margin: 0 10px;" required placeholder="Enter optional description" id="quizDescriptionInput"/>
                     <button onclick="submitSelectedQuestions()" class="btn btn-primary"  style="font-size: 20px;">Create Quiz</button>
                 </div>
                 
@@ -543,28 +543,38 @@
             const selectedItems = document.querySelectorAll(".selected");
             const selectedIds = Array.from(selectedItems).map(item => item.getAttribute('data-id'));
             const titleLength = document.getElementById("quizTitleInput").value.length;
-            const descriptionInput = document.getElementById("quizDescriptionInput").value;
+            const descriptionLength = document.getElementById("quizDescriptionInput").value.length;
 
-            // var description = "";
-            if (titleLength === 0 && selectedIds.length >= 5) {
-                alert("Quiz title is mandatory.");
+            if (descriptionLength === 0 && titleLength === 0 && selectedIds.length < 5) {
+                alert("Select at least 5 questions and add title / description");
             }
-            if (selectedIds.length < 5 && titleLength > 0) {
-                alert("Pick at least 5 questions.");
+            if (descriptionLength > 0 && titleLength > 0 && selectedIds.length < 5) {
+                alert("Select at least 5 questions");
             }
-            if (selectedIds.length < 5 && titleLength === 0) {
-                alert("Pick at least 5 questions and provide a title for your quiz.");
+            if (descriptionLength > 0 && titleLength === 0 && selectedIds.length < 5) {
+                alert("Select at least 5 questions and provide a title");
             }
-            if(selectedIds.length >= 5 && titleLength > 0) {
+            if (descriptionLength === 0 && titleLength > 0 && selectedIds.length < 5) {
+                alert("Select at least 5 questions and provide a description");
+            }
+            if (descriptionLength === 0 && titleLength === 0 && selectedIds.length >= 5) {
+                alert("Provide title and description");
+            }
+            if (descriptionLength === 0 && titleLength > 0 && selectedIds.length >= 5) {
+                alert("Provide a description");
+            }
+            if (descriptionLength > 0 && titleLength === 0 && selectedIds.length >= 5) {
+                alert("Provide a title");
+            }
+            if (descriptionLength > 0 && titleLength > 0 && selectedIds.length >= 5) {
                 // post
                 document.getElementById("quizTitle").value = document.getElementById("quizTitleInput").value;
-                document.getElementById("quizDescription").value = descriptionInput.length > 0 ? descriptionInput : "";
-                
-                
+                document.getElementById("quizDescription").value = document.getElementById("quizDescriptionInput").value;
+
                 document.getElementById('selectedQuestions').value = selectedIds.join(',');
                 // Submit the form
                 document.getElementById('pick-questions-form').submit();
-            }    
+            }  
         }
 
         function deleteQuestion() {

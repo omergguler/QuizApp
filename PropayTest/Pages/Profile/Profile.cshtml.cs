@@ -197,11 +197,7 @@ namespace PropayTest.Pages.Profile
                         {
                             // Add parameters to the command
                             command.Parameters.AddWithValue("@title", QuizTitle);
-                            if (QuizDescription == null) 
-                            {
-                                command.Parameters.AddWithValue("@description", "");
-                            }
-                            
+                            command.Parameters.AddWithValue("@description", QuizDescription);
                             command.Parameters.AddWithValue("@createdDate", DateTime.Now);
                             command.Parameters.AddWithValue("@isActive", 1);
                             command.Parameters.AddWithValue("@creatorId", userId); // Or set this value as needed
